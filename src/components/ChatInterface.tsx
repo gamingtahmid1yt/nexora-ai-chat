@@ -156,8 +156,8 @@ export function ChatInterface() {
         </div>
       </ScrollArea>
 
-      {/* Input Area */}
-      <div className="border-t border-border bg-card/50 backdrop-blur-sm p-4">
+      {/* Input Area - Always Visible */}
+      <div className="sticky bottom-0 z-40 border-t border-border bg-card/95 backdrop-blur-md p-4 shadow-lg">
         <div className="max-w-4xl mx-auto">
           <form onSubmit={handleSubmit} className="flex gap-2">
             <div className="flex-1 relative">
@@ -166,8 +166,8 @@ export function ChatInterface() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Message Nexora AI..."
-                className="min-h-[60px] max-h-32 resize-none bg-chat-input-bg border-border focus:border-primary"
+                placeholder="Message Nexora AI... (Try: 'Explain quantum physics' or 'Generate a sunset image')"
+                className="min-h-[60px] max-h-32 resize-none bg-background/80 border-border focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
                 disabled={isLoading || isGeneratingImage}
               />
             </div>
