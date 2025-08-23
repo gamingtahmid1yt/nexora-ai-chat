@@ -25,7 +25,7 @@ export function ChatLayout() {
           
           <div className="flex-1 flex flex-col">
             {/* Header */}
-            <header className="h-14 border-b border-border flex items-center justify-between px-4 bg-card/50 backdrop-blur-sm">
+            <header className="sticky top-0 z-50 h-14 border-b border-border flex items-center justify-between px-4 bg-card/80 backdrop-blur-md shadow-sm">
               <div className="flex items-center gap-4">
                 <SidebarTrigger />
                 <div className="flex items-center gap-2">

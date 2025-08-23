@@ -50,7 +50,7 @@ export function ChatInterface() {
         timestamp: new Date(),
       });
 
-      // Call image generation API
+      // Call image generation API with correct format
       const response = await fetch('https://api.tahmideditofficial.workers.dev', {
         method: 'POST',
         headers: { 
@@ -62,23 +62,39 @@ export function ChatInterface() {
           prompt: prompt,
           width: 512,
           height: 512,
-          steps: 4
+          num_inference_steps: 4,
+          guidance_scale: 1.0,
+          num_images_per_prompt: 1
         })
       });
 
       const data = await response.json();
+      console.log('Image API Response:', data);
       
-      if (data.data && data.data[0] && data.data[0].url) {
+      // Handle different possible response formats
+      let imageUrl = null;
+      if (data.images && data.images[0]) {
+        imageUrl = data.images[0].url || data.images[0];
+      } else if (data.data && data.data[0]) {
+        imageUrl = data.data[0].url || data.data[0].imageURL || data.data[0];
+      } else if (data.url) {
+        imageUrl = data.url;
+      } else if (data.output && data.output[0]) {
+        imageUrl = data.output[0];
+      }
+      
+      if (imageUrl) {
         addMessage({
           role: "assistant",
           content: "Here's your generated image:",
-          imageUrl: data.data[0].url,
+          imageUrl: imageUrl,
           timestamp: new Date(),
         });
       } else {
+        console.error('No image URL found in response:', data);
         addMessage({
           role: "assistant",
-          content: "Sorry, I couldn't generate the image. Please try again.",
+          content: "Sorry, I couldn't generate the image. The API response didn't contain an image URL. Please try again with a different prompt.",
           timestamp: new Date(),
         });
       }
@@ -86,7 +102,7 @@ export function ChatInterface() {
       console.error('Image generation error:', error);
       addMessage({
         role: "assistant",
-        content: "Sorry, there was an error generating the image. Please try again.",
+        content: `Sorry, there was an error generating the image: ${error.message}. Please check your internet connection and try again.`,
         timestamp: new Date(),
       });
     } finally {
