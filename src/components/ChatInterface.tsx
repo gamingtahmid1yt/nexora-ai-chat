@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Send, Image as ImageIcon } from "lucide-react";
+import { Send, Image as ImageIcon, Mic, MicOff, Volume2, VolumeX, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -7,6 +7,8 @@ import { ChatMessage } from "@/components/ChatMessage";
 import { TypingIndicator } from "@/components/TypingIndicator";
 import { useChatStore } from "@/stores/chatStore";
 import { useAI } from "@/hooks/useAI";
+import { useSpeech } from "@/hooks/useSpeech";
+import { useToast } from "@/hooks/use-toast";
 
 export function ChatInterface() {
   const [input, setInput] = useState("");
@@ -16,13 +18,29 @@ export function ChatInterface() {
   
   const { currentSession, addMessage } = useChatStore();
   const { sendMessage, isLoading } = useAI();
+  const { toast } = useToast();
+  const { 
+    isListening, 
+    isSpeaking, 
+    transcript, 
+    isSupported, 
+    startListening, 
+    stopListening, 
+    speak, 
+    stopSpeaking 
+  } = useSpeech();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!input.trim() || isLoading) return;
+    if (!input.trim() || isLoading || isGeneratingImage) return;
 
     const userMessage = input.trim();
     setInput("");
+    
+    // Stop listening when submitting
+    if (isListening) {
+      stopListening();
+    }
 
     // Add user message
     addMessage({
@@ -31,8 +49,42 @@ export function ChatInterface() {
       timestamp: new Date(),
     });
 
-    // Send to AI
-    await sendMessage(userMessage);
+    // Check if it's an image generation request
+    if (userMessage.toLowerCase().includes('generate') && (userMessage.toLowerCase().includes('image') || userMessage.toLowerCase().includes('picture') || userMessage.toLowerCase().includes('photo'))) {
+      await handleImageGeneration();
+    } else {
+      // Send to AI
+      await sendMessage(userMessage);
+    }
+  };
+
+  const handleVoiceToggle = () => {
+    if (isListening) {
+      stopListening();
+    } else {
+      startListening();
+    }
+  };
+
+  const handleSpeakToggle = () => {
+    if (isSpeaking) {
+      stopSpeaking();
+    } else {
+      const autoSpeak = localStorage.getItem('nexora-auto-speak') !== 'true';
+      localStorage.setItem('nexora-auto-speak', autoSpeak.toString());
+      
+      if (autoSpeak) {
+        const lastMessage = currentSession?.messages[currentSession?.messages.length - 1];
+        if (lastMessage?.role === 'assistant') {
+          speak(lastMessage.content);
+        }
+      }
+      
+      toast({
+        title: autoSpeak ? "Auto-speak enabled" : "Auto-speak disabled",
+        description: autoSpeak ? "AI responses will be spoken automatically" : "AI responses will not be spoken",
+      });
+    }
   };
 
   const handleImageGeneration = async () => {
@@ -117,6 +169,24 @@ export function ChatInterface() {
     }
   };
 
+  // Handle speech transcript
+  useEffect(() => {
+    if (transcript) {
+      setInput(transcript);
+    }
+  }, [transcript]);
+
+  // Auto-speak AI responses when enabled
+  useEffect(() => {
+    const lastMessage = currentSession?.messages[currentSession?.messages.length - 1];
+    if (lastMessage?.role === 'assistant' && !isLoading) {
+      const autoSpeak = localStorage.getItem('nexora-auto-speak') === 'true';
+      if (autoSpeak) {
+        speak(lastMessage.content);
+      }
+    }
+  }, [currentSession?.messages, isLoading, speak]);
+
   // Auto-scroll to bottom
   useEffect(() => {
     if (scrollAreaRef.current) {
@@ -166,19 +236,60 @@ export function ChatInterface() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Message Nexora AI... (Try: 'Explain quantum physics' or 'Generate a sunset image')"
-                className="min-h-[60px] max-h-32 resize-none bg-background/80 border-border focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                placeholder={isListening ? "Listening... Speak now!" : "Message Nexora AI... (Try voice input or type)"}
+                className={`min-h-[60px] max-h-32 resize-none bg-background/80 border-border focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all ${
+                  isListening ? 'border-red-500 ring-2 ring-red-500/20' : ''
+                }`}
                 disabled={isLoading || isGeneratingImage}
               />
             </div>
             <div className="flex flex-col gap-2">
+              {isSupported && (
+                <Button
+                  type="button"
+                  variant={isListening ? "destructive" : "outline"}
+                  size="icon"
+                  onClick={handleVoiceToggle}
+                  disabled={isLoading || isGeneratingImage}
+                  className="shrink-0"
+                  title={isListening ? "Stop listening" : "Start voice input"}
+                >
+                  {isListening ? (
+                    <MicOff className="h-4 w-4" />
+                  ) : (
+                    <Mic className="h-4 w-4" />
+                  )}
+                </Button>
+              )}
+              {isSupported && (
+                <Button
+                  type="button"
+                  variant={isSpeaking || localStorage.getItem('nexora-auto-speak') === 'true' ? "default" : "outline"}
+                  size="icon"
+                  onClick={handleSpeakToggle}
+                  disabled={isLoading || isGeneratingImage}
+                  className="shrink-0"
+                  title={isSpeaking ? "Stop speaking" : "Toggle auto-speak"}
+                >
+                  {isSpeaking ? (
+                    <VolumeX className="h-4 w-4" />
+                  ) : (
+                    <Volume2 className="h-4 w-4" />
+                  )}
+                </Button>
+              )}
               <Button
                 type="submit"
                 disabled={!input.trim() || isLoading || isGeneratingImage}
                 className="bg-nexora-primary hover:bg-nexora-primary/90"
                 size="icon"
+                title="Send message"
               >
-                <Send className="h-4 w-4" />
+                {isLoading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Send className="h-4 w-4" />
+                )}
               </Button>
               <Button
                 type="button"
@@ -187,8 +298,13 @@ export function ChatInterface() {
                 variant="outline"
                 size="icon"
                 className="border-nexora-primary text-nexora-primary hover:bg-nexora-primary hover:text-white"
+                title="Generate image"
               >
-                <ImageIcon className="h-4 w-4" />
+                {isGeneratingImage ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <ImageIcon className="h-4 w-4" />
+                )}
               </Button>
             </div>
           </form>

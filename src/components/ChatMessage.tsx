@@ -1,6 +1,10 @@
-import { User, Bot } from "lucide-react";
+import { User, Bot, Copy, Check, Volume2 } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
+import { useSpeech } from "@/hooks/useSpeech";
 
 interface Message {
   role: "user" | "assistant";
@@ -16,6 +20,25 @@ interface ChatMessageProps {
 
 export function ChatMessage({ message, className }: ChatMessageProps) {
   const isUser = message.role === "user";
+  const [copied, setCopied] = useState(false);
+  const { toast } = useToast();
+  const { speak, isSupported } = useSpeech();
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(message.content);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+    
+    toast({
+      title: "Copied!",
+      description: "Message copied to clipboard",
+      duration: 2000,
+    });
+  };
+
+  const speakMessage = () => {
+    speak(message.content);
+  };
 
   return (
     <div className={cn("flex gap-3 group", className)}>
@@ -30,7 +53,7 @@ export function ChatMessage({ message, className }: ChatMessageProps) {
         </AvatarFallback>
       </Avatar>
 
-      <div className="flex-1 space-y-2">
+      <div className="flex-1 space-y-2 group">
         <div className="flex items-center gap-2">
           <span className="text-sm font-medium">
             {isUser ? "You" : "Nexora AI"}
@@ -41,6 +64,34 @@ export function ChatMessage({ message, className }: ChatMessageProps) {
               minute: '2-digit' 
             })}
           </span>
+          {!isUser && (
+            <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity ml-auto">
+              {isSupported && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={speakMessage}
+                  className="h-6 w-6 p-0"
+                  title="Listen to message"
+                >
+                  <Volume2 className="h-3 w-3" />
+                </Button>
+              )}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={copyToClipboard}
+                className="h-6 w-6 p-0"
+                title="Copy message"
+              >
+                {copied ? (
+                  <Check className="h-3 w-3 text-green-500" />
+                ) : (
+                  <Copy className="h-3 w-3" />
+                )}
+              </Button>
+            </div>
+          )}
         </div>
 
         <div className={cn(
