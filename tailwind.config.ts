@@ -61,6 +61,24 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Nexora specific colors
+				nexora: {
+					primary: 'hsl(var(--nexora-primary))',
+					'primary-light': 'hsl(var(--nexora-primary-light))',
+					secondary: 'hsl(var(--nexora-secondary))',
+					accent: 'hsl(var(--nexora-accent))',
+					success: 'hsl(var(--nexora-success))',
+					warning: 'hsl(var(--nexora-warning))'
+				},
+				chat: {
+					'bubble-user': 'hsl(var(--chat-bubble-user))',
+					'bubble-ai': 'hsl(var(--chat-bubble-ai))',
+					'input-bg': 'hsl(var(--chat-input-bg))'
+				},
+				status: {
+					online: 'hsl(var(--status-online))',
+					offline: 'hsl(var(--status-offline))'
 				}
 			},
 			borderRadius: {
