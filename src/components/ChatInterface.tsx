@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Send, Image as ImageIcon, Mic, MicOff, Volume2, VolumeX, Loader2 } from "lucide-react";
+import { Send, Image as ImageIcon, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -7,7 +7,6 @@ import { ChatMessage } from "@/components/ChatMessage";
 import { TypingIndicator } from "@/components/TypingIndicator";
 import { useChatStore } from "@/stores/chatStore";
 import { useAI } from "@/hooks/useAI";
-import { useSpeech } from "@/hooks/useSpeech";
 import { useToast } from "@/hooks/use-toast";
 
 export function ChatInterface() {
@@ -19,16 +18,6 @@ export function ChatInterface() {
   const { currentSession, addMessage } = useChatStore();
   const { sendMessage, isLoading } = useAI();
   const { toast } = useToast();
-  const { 
-    isListening, 
-    isSpeaking, 
-    transcript, 
-    isSupported, 
-    startListening, 
-    stopListening, 
-    speak, 
-    stopSpeaking 
-  } = useSpeech();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,11 +25,6 @@ export function ChatInterface() {
 
     const userMessage = input.trim();
     setInput("");
-    
-    // Stop listening when submitting
-    if (isListening) {
-      stopListening();
-    }
 
     // Add user message
     addMessage({
@@ -58,32 +42,28 @@ export function ChatInterface() {
     }
   };
 
-  const handleVoiceToggle = () => {
-    if (isListening) {
-      stopListening();
-    } else {
-      startListening();
-    }
-  };
+  const handleRegenerate = async () => {
+    const messages = currentSession?.messages || [];
+    if (messages.length === 0) return;
 
-  const handleSpeakToggle = () => {
-    if (isSpeaking) {
-      stopSpeaking();
-    } else {
-      const autoSpeak = localStorage.getItem('nexora-auto-speak') !== 'true';
-      localStorage.setItem('nexora-auto-speak', autoSpeak.toString());
-      
-      if (autoSpeak) {
-        const lastMessage = currentSession?.messages[currentSession?.messages.length - 1];
-        if (lastMessage?.role === 'assistant') {
-          speak(lastMessage.content);
-        }
+    // Find the last user message
+    let lastUserMessage = "";
+    for (let i = messages.length - 1; i >= 0; i--) {
+      if (messages[i].role === "user") {
+        lastUserMessage = messages[i].content;
+        break;
+      }
+    }
+
+    if (lastUserMessage) {
+      // Remove the last AI response
+      const updatedMessages = [...messages];
+      if (updatedMessages[updatedMessages.length - 1]?.role === "assistant") {
+        updatedMessages.pop();
       }
       
-      toast({
-        title: autoSpeak ? "Auto-speak enabled" : "Auto-speak disabled",
-        description: autoSpeak ? "AI responses will be spoken automatically" : "AI responses will not be spoken",
-      });
+      // Send the message again
+      await sendMessage(lastUserMessage);
     }
   };
 
@@ -169,23 +149,6 @@ export function ChatInterface() {
     }
   };
 
-  // Handle speech transcript
-  useEffect(() => {
-    if (transcript) {
-      setInput(transcript);
-    }
-  }, [transcript]);
-
-  // Auto-speak AI responses when enabled
-  useEffect(() => {
-    const lastMessage = currentSession?.messages[currentSession?.messages.length - 1];
-    if (lastMessage?.role === 'assistant' && !isLoading) {
-      const autoSpeak = localStorage.getItem('nexora-auto-speak') === 'true';
-      if (autoSpeak) {
-        speak(lastMessage.content);
-      }
-    }
-  }, [currentSession?.messages, isLoading, speak]);
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -218,6 +181,7 @@ export function ChatInterface() {
                 key={index}
                 message={message}
                 className="message-fade-in"
+                onRegenerate={message.role === "assistant" ? handleRegenerate : undefined}
               />
             ))
           )}
@@ -236,48 +200,12 @@ export function ChatInterface() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder={isListening ? "Listening... Speak now!" : "Message Nexora AI... (Try voice input or type)"}
-                className={`min-h-[60px] max-h-32 resize-none bg-background/80 border-border focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all ${
-                  isListening ? 'border-red-500 ring-2 ring-red-500/20' : ''
-                }`}
+                placeholder="Message Nexora AI..."
+                className="min-h-[60px] max-h-32 resize-none bg-background/80 border-border focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
                 disabled={isLoading || isGeneratingImage}
               />
             </div>
             <div className="flex flex-col gap-2">
-              {isSupported && (
-                <Button
-                  type="button"
-                  variant={isListening ? "destructive" : "outline"}
-                  size="icon"
-                  onClick={handleVoiceToggle}
-                  disabled={isLoading || isGeneratingImage}
-                  className="shrink-0"
-                  title={isListening ? "Stop listening" : "Start voice input"}
-                >
-                  {isListening ? (
-                    <MicOff className="h-4 w-4" />
-                  ) : (
-                    <Mic className="h-4 w-4" />
-                  )}
-                </Button>
-              )}
-              {isSupported && (
-                <Button
-                  type="button"
-                  variant={isSpeaking || localStorage.getItem('nexora-auto-speak') === 'true' ? "default" : "outline"}
-                  size="icon"
-                  onClick={handleSpeakToggle}
-                  disabled={isLoading || isGeneratingImage}
-                  className="shrink-0"
-                  title={isSpeaking ? "Stop speaking" : "Toggle auto-speak"}
-                >
-                  {isSpeaking ? (
-                    <VolumeX className="h-4 w-4" />
-                  ) : (
-                    <Volume2 className="h-4 w-4" />
-                  )}
-                </Button>
-              )}
               <Button
                 type="submit"
                 disabled={!input.trim() || isLoading || isGeneratingImage}

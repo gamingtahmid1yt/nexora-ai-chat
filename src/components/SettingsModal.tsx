@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Trash2, Download, Shield, X } from "lucide-react";
+import { Trash2, Download, Shield, X, Palette, Monitor, Sun, Moon, Globe, Code } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -8,8 +8,11 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import { useChatStore } from "@/stores/chatStore";
 import { useToast } from "@/hooks/use-toast";
+import { useTheme } from "@/hooks/useTheme";
 
 interface SettingsModalProps {
   open: boolean;
@@ -19,6 +22,13 @@ interface SettingsModalProps {
 export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
   const { clearAllChats } = useChatStore();
   const { toast } = useToast();
+  const { theme, setTheme } = useTheme();
+  const [notifications, setNotifications] = useState(
+    localStorage.getItem('nexora-notifications') !== 'false'
+  );
+  const [animations, setAnimations] = useState(
+    localStorage.getItem('nexora-animations') !== 'false'
+  );
 
   const handleClearAllChats = () => {
     clearAllChats();
@@ -47,6 +57,24 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
     }
   };
 
+  const handleNotificationsChange = (checked: boolean) => {
+    setNotifications(checked);
+    localStorage.setItem('nexora-notifications', checked.toString());
+    toast({
+      title: checked ? "Notifications enabled" : "Notifications disabled",
+      description: checked ? "You'll receive notifications" : "Notifications are turned off",
+    });
+  };
+
+  const handleAnimationsChange = (checked: boolean) => {
+    setAnimations(checked);
+    localStorage.setItem('nexora-animations', checked.toString());
+    toast({
+      title: checked ? "Animations enabled" : "Animations disabled",
+      description: checked ? "UI animations are turned on" : "UI animations are turned off",
+    });
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md">
@@ -60,6 +88,64 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
         </DialogHeader>
 
         <div className="space-y-4">
+          <div>
+            <h3 className="text-sm font-medium mb-3 flex items-center gap-2">
+              <Palette className="h-4 w-4" />
+              Appearance
+            </h3>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <Label htmlFor="theme" className="text-sm">Theme</Label>
+                <div className="flex gap-1">
+                  <Button
+                    variant={theme === 'light' ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setTheme('light')}
+                    className="h-8 px-3"
+                  >
+                    <Sun className="h-3 w-3" />
+                  </Button>
+                  <Button
+                    variant={theme === 'dark' ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setTheme('dark')}
+                    className="h-8 px-3"
+                  >
+                    <Moon className="h-3 w-3" />
+                  </Button>
+                  <Button
+                    variant={theme === 'system' ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setTheme('system')}
+                    className="h-8 px-3"
+                  >
+                    <Monitor className="h-3 w-3" />
+                  </Button>
+                </div>
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <Label htmlFor="animations" className="text-sm">Animations</Label>
+                <Switch
+                  id="animations"
+                  checked={animations}
+                  onCheckedChange={handleAnimationsChange}
+                />
+              </div>
+
+              <div className="flex items-center justify-between">
+                <Label htmlFor="notifications" className="text-sm">Notifications</Label>
+                <Switch
+                  id="notifications"
+                  checked={notifications}
+                  onCheckedChange={handleNotificationsChange}
+                />
+              </div>
+            </div>
+          </div>
+
+          <Separator />
+
           <div>
             <h3 className="text-sm font-medium mb-2">App Info</h3>
             <div className="text-sm text-muted-foreground space-y-1">
@@ -97,7 +183,10 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
           <Separator />
 
           <div>
-            <h3 className="text-sm font-medium mb-3">Links</h3>
+            <h3 className="text-sm font-medium mb-3 flex items-center gap-2">
+              <Globe className="h-4 w-4" />
+              Links & Resources
+            </h3>
             <div className="space-y-2">
               <Button
                 variant="outline"
@@ -115,6 +204,15 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
               >
                 <Shield className="h-4 w-4" />
                 Privacy Policy
+              </Button>
+
+              <Button
+                variant="outline"
+                onClick={() => window.open('https://github.com/gamingtahmid1yt/nexora-ai', '_blank')}
+                className="w-full justify-start gap-2"
+              >
+                <Code className="h-4 w-4" />
+                Source Code
               </Button>
             </div>
           </div>

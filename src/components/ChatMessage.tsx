@@ -1,10 +1,9 @@
-import { User, Bot, Copy, Check, Volume2 } from "lucide-react";
+import { User, Bot, Copy, Check, RotateCcw } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { useSpeech } from "@/hooks/useSpeech";
 
 interface Message {
   role: "user" | "assistant";
@@ -16,13 +15,13 @@ interface Message {
 interface ChatMessageProps {
   message: Message;
   className?: string;
+  onRegenerate?: () => void;
 }
 
-export function ChatMessage({ message, className }: ChatMessageProps) {
+export function ChatMessage({ message, className, onRegenerate }: ChatMessageProps) {
   const isUser = message.role === "user";
   const [copied, setCopied] = useState(false);
   const { toast } = useToast();
-  const { speak, isSupported } = useSpeech();
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(message.content);
@@ -36,8 +35,10 @@ export function ChatMessage({ message, className }: ChatMessageProps) {
     });
   };
 
-  const speakMessage = () => {
-    speak(message.content);
+  const handleRegenerate = () => {
+    if (onRegenerate) {
+      onRegenerate();
+    }
   };
 
   return (
@@ -65,18 +66,7 @@ export function ChatMessage({ message, className }: ChatMessageProps) {
             })}
           </span>
           {!isUser && (
-            <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity ml-auto">
-              {isSupported && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={speakMessage}
-                  className="h-6 w-6 p-0"
-                  title="Listen to message"
-                >
-                  <Volume2 className="h-3 w-3" />
-                </Button>
-              )}
+            <div className="flex gap-1 ml-auto">
               <Button
                 variant="ghost"
                 size="sm"
@@ -115,6 +105,22 @@ export function ChatMessage({ message, className }: ChatMessageProps) {
             </div>
           )}
         </div>
+
+        {/* Regenerate button for AI messages */}
+        {!isUser && onRegenerate && (
+          <div className="mt-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleRegenerate}
+              className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground"
+              title="Regenerate response"
+            >
+              <RotateCcw className="h-3 w-3 mr-1" />
+              Regenerate
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );
