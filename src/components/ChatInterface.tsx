@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Send, Image as ImageIcon, Loader2 } from "lucide-react";
+import { Send, Loader2, Trash2, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -11,17 +11,16 @@ import { useToast } from "@/hooks/use-toast";
 
 export function ChatInterface() {
   const [input, setInput] = useState("");
-  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   
-  const { currentSession, addMessage } = useChatStore();
+  const { currentSession, addMessage, createNewSession, clearAllChats } = useChatStore();
   const { sendMessage, isLoading } = useAI();
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!input.trim() || isLoading || isGeneratingImage) return;
+    if (!input.trim() || isLoading) return;
 
     const userMessage = input.trim();
     setInput("");
@@ -33,14 +32,20 @@ export function ChatInterface() {
       timestamp: new Date(),
     });
 
-    // Check if it's an image generation request
-    if (userMessage.toLowerCase().includes('generate') && (userMessage.toLowerCase().includes('image') || userMessage.toLowerCase().includes('picture') || userMessage.toLowerCase().includes('photo'))) {
-      await handleImageGeneration();
-    } else {
-      // Send to AI
-      await sendMessage(userMessage);
-    }
+    // Send to AI
+    await sendMessage(userMessage);
   };
+
+  const handleClearChat = () => {
+    if (currentSession?.messages.length === 0) return;
+    
+    createNewSession();
+    toast({
+      title: "Chat cleared",
+      description: "Started a new conversation",
+    });
+  };
+
 
   const handleRegenerate = async () => {
     const messages = currentSession?.messages || [];
@@ -67,85 +72,15 @@ export function ChatInterface() {
     }
   };
 
-  const handleImageGeneration = async () => {
-    if (!input.trim() || isGeneratingImage) return;
-
-    const prompt = input.trim();
-    setInput("");
-    setIsGeneratingImage(true);
-
-    try {
-      // Add user message for image request
-      addMessage({
-        role: "user",
-        content: `Generate image: ${prompt}`,
-        timestamp: new Date(),
-      });
-
-      // Call image generation API with correct format
-      const response = await fetch('https://api.tahmideditofficial.workers.dev', {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer tgp_v1_AzgKHSbFIyq98yBIhyZJhlRZYtyQQb132lrLT15pcR4`
-        },
-        body: JSON.stringify({
-          model: "black-forest-labs/FLUX.1-schnell-Free",
-          prompt: prompt,
-          width: 512,
-          height: 512,
-          num_inference_steps: 4,
-          guidance_scale: 1.0,
-          num_images_per_prompt: 1
-        })
-      });
-
-      const data = await response.json();
-      console.log('Image API Response:', data);
-      
-      // Handle different possible response formats
-      let imageUrl = null;
-      if (data.images && data.images[0]) {
-        imageUrl = data.images[0].url || data.images[0];
-      } else if (data.data && data.data[0]) {
-        imageUrl = data.data[0].url || data.data[0].imageURL || data.data[0];
-      } else if (data.url) {
-        imageUrl = data.url;
-      } else if (data.output && data.output[0]) {
-        imageUrl = data.output[0];
-      }
-      
-      if (imageUrl) {
-        addMessage({
-          role: "assistant",
-          content: "Here's your generated image:",
-          imageUrl: imageUrl,
-          timestamp: new Date(),
-        });
-      } else {
-        console.error('No image URL found in response:', data);
-        addMessage({
-          role: "assistant",
-          content: "Sorry, I couldn't generate the image. The API response didn't contain an image URL. Please try again with a different prompt.",
-          timestamp: new Date(),
-        });
-      }
-    } catch (error) {
-      console.error('Image generation error:', error);
-      addMessage({
-        role: "assistant",
-        content: `Sorry, there was an error generating the image: ${error.message}. Please check your internet connection and try again.`,
-        timestamp: new Date(),
-      });
-    } finally {
-      setIsGeneratingImage(false);
-    }
-  };
-
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSubmit(e);
+    }
+    // Ctrl/Cmd + K to clear chat
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault();
+      handleClearChat();
     }
   };
 
@@ -166,14 +101,20 @@ export function ChatInterface() {
       <ScrollArea ref={scrollAreaRef} className="flex-1 p-4">
         <div className="max-w-4xl mx-auto space-y-4">
           {!currentSession?.messages.length ? (
-            <div className="text-center py-20">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-nexora-primary to-nexora-secondary flex items-center justify-center">
-                <span className="text-white font-bold text-2xl">N</span>
+            <div className="text-center py-20 animate-fade-in">
+              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-nexora-primary to-nexora-secondary flex items-center justify-center shadow-lg">
+                <MessageSquare className="h-10 w-10 text-white" />
               </div>
-              <h2 className="text-2xl font-bold mb-2 gradient-text">Welcome to Nexora AI</h2>
-              <p className="text-muted-foreground">
-                Your intelligent AI assistant. Ask me anything or generate images!
+              <h2 className="text-3xl font-bold mb-3 gradient-text">Welcome to Nexora AI</h2>
+              <p className="text-muted-foreground max-w-md mx-auto leading-relaxed">
+                Your intelligent AI assistant. Ask me anything, and I'll help you with detailed, accurate responses.
               </p>
+              <div className="mt-6 flex flex-wrap gap-2 justify-center">
+                <div className="text-xs bg-muted px-3 py-1 rounded-full">💡 Creative Writing</div>
+                <div className="text-xs bg-muted px-3 py-1 rounded-full">🔍 Research & Analysis</div>
+                <div className="text-xs bg-muted px-3 py-1 rounded-full">💻 Code Assistance</div>
+                <div className="text-xs bg-muted px-3 py-1 rounded-full">📝 Problem Solving</div>
+              </div>
             </div>
           ) : (
             currentSession.messages.map((message, index) => (
@@ -186,13 +127,32 @@ export function ChatInterface() {
             ))
           )}
           
-          {(isLoading || isGeneratingImage) && <TypingIndicator />}
+          {(isLoading) && <TypingIndicator />}
         </div>
       </ScrollArea>
 
-      {/* Input Area - Always Visible */}
-      <div className="sticky bottom-0 z-40 border-t border-border bg-card/95 backdrop-blur-md p-4 shadow-lg">
-        <div className="max-w-4xl mx-auto">
+      {/* Input Area - Enhanced */}
+      <div className="sticky bottom-0 z-40 border-t border-border bg-card/95 backdrop-blur-md shadow-lg">
+        <div className="max-w-4xl mx-auto p-4"
+             >
+          {/* Quick Actions Bar */}
+          {currentSession?.messages.length > 0 && (
+            <div className="flex gap-2 mb-3 justify-center">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleClearChat}
+                className="gap-2 text-xs"
+                title="Clear chat (Ctrl+K)"
+              >
+                <Trash2 className="h-3 w-3" />
+                New Chat
+              </Button>
+              <div className="text-xs text-muted-foreground px-2 py-1 bg-muted/50 rounded">
+                {currentSession.messages.length} messages
+              </div>
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="flex gap-2">
             <div className="flex-1 relative">
               <Textarea
@@ -200,18 +160,18 @@ export function ChatInterface() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Message Nexora AI..."
+                placeholder="Message Nexora AI... (Press Enter to send, Ctrl+K for new chat)"
                 className="min-h-[60px] max-h-32 resize-none bg-background/80 border-border focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
-                disabled={isLoading || isGeneratingImage}
+                disabled={isLoading}
               />
             </div>
             <div className="flex flex-col gap-2">
               <Button
                 type="submit"
-                disabled={!input.trim() || isLoading || isGeneratingImage}
-                className="bg-nexora-primary hover:bg-nexora-primary/90"
+                disabled={!input.trim() || isLoading}
+                className="bg-nexora-primary hover:bg-nexora-primary/90 transition-all duration-200 hover:scale-105"
                 size="icon"
-                title="Send message"
+                title="Send message (Enter)"
               >
                 {isLoading ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
@@ -219,26 +179,12 @@ export function ChatInterface() {
                   <Send className="h-4 w-4" />
                 )}
               </Button>
-              <Button
-                type="button"
-                onClick={handleImageGeneration}
-                disabled={!input.trim() || isLoading || isGeneratingImage}
-                variant="outline"
-                size="icon"
-                className="border-nexora-primary text-nexora-primary hover:bg-nexora-primary hover:text-white"
-                title="Generate image"
-              >
-                {isGeneratingImage ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <ImageIcon className="h-4 w-4" />
-                )}
-              </Button>
             </div>
           </form>
-          <p className="text-xs text-muted-foreground mt-2 text-center">
-            Nexora AI can make mistakes. Consider checking important information.
-          </p>
+          <div className="flex items-center justify-between mt-3 text-xs text-muted-foreground">
+            <span>Nexora AI can make mistakes. Consider checking important information.</span>
+            <span className="text-xs">Powered by advanced AI models</span>
+          </div>
         </div>
       </div>
     </div>

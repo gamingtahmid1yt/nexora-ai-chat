@@ -77,7 +77,7 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <div className="w-6 h-6 rounded bg-gradient-to-br from-nexora-primary to-nexora-secondary flex items-center justify-center">
@@ -217,10 +217,23 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
             </div>
           </div>
 
-          <div className="text-xs text-muted-foreground">
-            <p>100% Free & Safe</p>
-            <p>No Login/Data Collection</p>
-            <p>Messages saved locally in your browser</p>
+          <div className="text-xs text-muted-foreground space-y-1 p-3 bg-muted/50 rounded-lg">
+            <div className="flex items-center justify-between">
+              <span>100% Free & Safe</span>
+              <span className="text-green-600">✓</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span>No Login Required</span>
+              <span className="text-green-600">✓</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span>Local Data Storage</span>
+              <span className="text-green-600">✓</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span>Privacy Focused</span>
+              <span className="text-green-600">✓</span>
+            </div>
           </div>
         </div>
       </DialogContent>
