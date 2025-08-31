@@ -85,20 +85,25 @@ export function ChatInterface() {
   };
 
 
-  // Auto-scroll to bottom
+  // Auto-scroll to bottom with smooth animation
   useEffect(() => {
     if (scrollAreaRef.current) {
       const scrollContainer = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
       if (scrollContainer) {
-        scrollContainer.scrollTop = scrollContainer.scrollHeight;
+        requestAnimationFrame(() => {
+          scrollContainer.scrollTo({
+            top: scrollContainer.scrollHeight,
+            behavior: 'smooth'
+          });
+        });
       }
     }
-  }, [currentSession?.messages]);
+  }, [currentSession?.messages, isLoading]);
 
   return (
     <div className="flex flex-col h-full">
       {/* Messages Area */}
-      <ScrollArea ref={scrollAreaRef} className="flex-1 p-4">
+      <ScrollArea ref={scrollAreaRef} className="flex-1 p-4 scroll-smooth">
         <div className="max-w-4xl mx-auto space-y-4">
           {!currentSession?.messages.length ? (
             <div className="text-center py-20 animate-fade-in">

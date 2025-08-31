@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Trash2, Download, Shield, X, Palette, Monitor, Sun, Moon, Globe, Code } from "lucide-react";
+import { Trash2, Download, Shield, X, Palette, Monitor, Sun, Moon, Globe, Code, LogOut, User } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { useChatStore } from "@/stores/chatStore";
 import { useToast } from "@/hooks/use-toast";
 import { useTheme } from "@/hooks/useTheme";
+import { useAuth } from "@/hooks/useAuth";
 
 interface SettingsModalProps {
   open: boolean;
@@ -23,6 +24,7 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
   const { clearAllChats } = useChatStore();
   const { toast } = useToast();
   const { theme, setTheme } = useTheme();
+  const { user, logout } = useAuth();
   const [notifications, setNotifications] = useState(
     localStorage.getItem('nexora-notifications') !== 'false'
   );
@@ -88,6 +90,51 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
         </DialogHeader>
 
         <div className="space-y-4">
+          {/* User Profile */}
+          {user && (
+            <>
+              <div>
+                <h3 className="text-sm font-medium mb-3 flex items-center gap-2">
+                  <User className="h-4 w-4" />
+                  Account
+                </h3>
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
+                  {user.photoURL ? (
+                    <img 
+                      src={user.photoURL} 
+                      alt="Profile" 
+                      className="w-10 h-10 rounded-full"
+                    />
+                  ) : (
+                    <div className="w-10 h-10 rounded-full bg-nexora-primary flex items-center justify-center">
+                      <User className="h-5 w-5 text-white" />
+                    </div>
+                  )}
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium truncate">{user.displayName}</p>
+                    <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                  </div>
+                </div>
+                <Button 
+                  variant="outline" 
+                  className="w-full gap-2 text-red-600 hover:text-red-700 mt-3" 
+                  onClick={() => {
+                    logout();
+                    onOpenChange(false);
+                    toast({
+                      title: "Signed out",
+                      description: "You have been successfully signed out.",
+                    });
+                  }}
+                >
+                  <LogOut className="h-4 w-4" />
+                  Sign Out
+                </Button>
+              </div>
+              <Separator />
+            </>
+          )}
+
           <div>
             <h3 className="text-sm font-medium mb-3 flex items-center gap-2">
               <Palette className="h-4 w-4" />
@@ -219,11 +266,11 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
 
           <div className="text-xs text-muted-foreground space-y-1 p-3 bg-muted/50 rounded-lg">
             <div className="flex items-center justify-between">
-              <span>100% Free & Safe</span>
+              <span>Secure Authentication</span>
               <span className="text-green-600">✓</span>
             </div>
             <div className="flex items-center justify-between">
-              <span>No Login Required</span>
+              <span>Google OAuth</span>
               <span className="text-green-600">✓</span>
             </div>
             <div className="flex items-center justify-between">
