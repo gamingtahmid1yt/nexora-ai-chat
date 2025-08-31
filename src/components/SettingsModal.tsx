@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Trash2, Download, Shield, X, Palette, Monitor, Sun, Moon, Globe, Code, LogOut, User } from "lucide-react";
+import { Trash2, Download, Shield, X, Palette, Monitor, Sun, Moon, Globe, Code, LogOut, User, Mail, Github } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -231,10 +231,28 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
 
           <div>
             <h3 className="text-sm font-medium mb-3 flex items-center gap-2">
-              <Globe className="h-4 w-4" />
-              Links & Resources
+              <Mail className="h-4 w-4" />
+              Support & Resources
             </h3>
             <div className="space-y-2">
+              <Button
+                variant="outline"
+                onClick={() => window.open('mailto:tahmidbusinessyt@gmail.com', '_blank')}
+                className="w-full justify-start gap-2"
+              >
+                <Mail className="h-4 w-4" />
+                Contact Support
+              </Button>
+
+              <Button
+                variant="outline"
+                onClick={() => window.open('https://github.com/gamingtahmid1yt/nexora-ai', '_blank')}
+                className="w-full justify-start gap-2"
+              >
+                <Github className="h-4 w-4" />
+                Source Code
+              </Button>
+              
               <Button
                 variant="outline"
                 onClick={() => window.open('https://gamingtahmid1yt.github.io/nexora.ai-download/', '_blank')}
@@ -251,15 +269,6 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
               >
                 <Shield className="h-4 w-4" />
                 Privacy Policy
-              </Button>
-
-              <Button
-                variant="outline"
-                onClick={() => window.open('https://github.com/gamingtahmid1yt/nexora-ai', '_blank')}
-                className="w-full justify-start gap-2"
-              >
-                <Code className="h-4 w-4" />
-                Source Code
               </Button>
             </div>
           </div>

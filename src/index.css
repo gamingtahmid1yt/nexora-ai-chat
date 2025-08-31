@@ -149,13 +149,21 @@
 }
 
 @layer components {
-  /* Chat animations */
+  /* Enhanced Chat animations */
   .message-fade-in {
-    animation: messageSlideIn 0.3s ease-out;
+    animation: messageSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .typing-indicator {
     animation: pulse 1.5s infinite;
+  }
+
+  .hover-scale {
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .hover-scale:hover {
+    transform: scale(1.02);
   }
 
   .gradient-text {
@@ -172,6 +180,16 @@
   .glass-effect {
     backdrop-filter: blur(10px);
     border: 1px solid hsl(var(--border) / 0.5);
+  }
+
+  /* Enhanced loading animation */
+  .loading-dots {
+    animation: loadingDots 1.5s infinite ease-in-out;
+  }
+
+  /* Smooth scrolling */
+  .scroll-smooth {
+    scroll-behavior: smooth;
   }
 }
 
@@ -192,6 +210,17 @@
   }
   50% {
     opacity: 0.5;
+  }
+}
+
+@keyframes loadingDots {
+  0%, 80%, 100% { 
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  40% { 
+    transform: scale(1);
+    opacity: 1;
   }
 }
 

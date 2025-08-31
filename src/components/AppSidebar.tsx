@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { MessageCircle, Image, Settings, Plus, Trash2, History } from "lucide-react";
+import { MessageCircle, Settings, Plus, Trash2, History, Zap, Brain, Sparkles } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -93,18 +93,34 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Image Library */}
+        {/* AI Features */}
         <SidebarGroup>
           <SidebarGroupLabel className="text-xs text-muted-foreground px-3">
-            {!collapsed && "Image Library"}
+            {!collapsed && "AI Features"}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="px-2">
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <div className="flex items-center gap-2 cursor-pointer">
-                    <Image className="h-4 w-4" />
-                    {!collapsed && <span className="text-sm">Generated Images</span>}
+                  <div className="flex items-center gap-2 cursor-pointer hover:bg-muted/50 rounded-md p-2">
+                    <Brain className="h-4 w-4 text-nexora-primary" />
+                    {!collapsed && <span className="text-sm">Advanced Reasoning</span>}
+                  </div>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <div className="flex items-center gap-2 cursor-pointer hover:bg-muted/50 rounded-md p-2">
+                    <Sparkles className="h-4 w-4 text-nexora-secondary" />
+                    {!collapsed && <span className="text-sm">Creative Writing</span>}
+                  </div>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <div className="flex items-center gap-2 cursor-pointer hover:bg-muted/50 rounded-md p-2">
+                    <Zap className="h-4 w-4 text-yellow-500" />
+                    {!collapsed && <span className="text-sm">Quick Analysis</span>}
                   </div>
                 </SidebarMenuButton>
               </SidebarMenuItem>
