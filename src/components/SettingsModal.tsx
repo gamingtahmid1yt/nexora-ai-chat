@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Trash2, Download, Shield, X, Palette, Monitor, Sun, Moon, Globe, Code, LogOut, User, Mail, Github } from "lucide-react";
+import { ConfirmDialog } from "@/components/ConfirmDialog";
 import {
   Dialog,
   DialogContent,
@@ -25,6 +26,7 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
   const { toast } = useToast();
   const { theme, setTheme } = useTheme();
   const { user, logout } = useAuth();
+  const [showClearConfirm, setShowClearConfirm] = useState(false);
   const [notifications, setNotifications] = useState(
     localStorage.getItem('nexora-notifications') !== 'false'
   );
@@ -38,6 +40,7 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
       title: "Chat history cleared",
       description: "All your conversations have been deleted.",
     });
+    setShowClearConfirm(false);
     onOpenChange(false);
   };
 
@@ -218,7 +221,7 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
               
               <Button
                 variant="destructive"
-                onClick={handleClearAllChats}
+                onClick={() => setShowClearConfirm(true)}
                 className="w-full justify-start gap-2"
               >
                 <Trash2 className="h-4 w-4" />
@@ -292,6 +295,17 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
             </div>
           </div>
         </div>
+
+        <ConfirmDialog
+          open={showClearConfirm}
+          onOpenChange={setShowClearConfirm}
+          title="Clear All Chats"
+          description="This will permanently delete all your chat conversations. This action cannot be undone."
+          confirmText="Clear All"
+          cancelText="Cancel"
+          onConfirm={handleClearAllChats}
+          variant="destructive"
+        />
       </DialogContent>
     </Dialog>
   );

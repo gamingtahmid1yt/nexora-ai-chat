@@ -151,7 +151,7 @@
 @layer components {
   /* Enhanced Chat animations */
   .message-fade-in {
-    animation: messageSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: messageSlideIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   .typing-indicator {
@@ -159,11 +159,12 @@
   }
 
   .hover-scale {
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   .hover-scale:hover {
-    transform: scale(1.02);
+    transform: scale(1.02) translateY(-1px);
+    box-shadow: 0 8px 25px hsl(var(--nexora-primary) / 0.15);
   }
 
   .gradient-text {
@@ -178,8 +179,9 @@
   }
 
   .glass-effect {
-    backdrop-filter: blur(10px);
-    border: 1px solid hsl(var(--border) / 0.5);
+    backdrop-filter: blur(12px);
+    border: 1px solid hsl(var(--border) / 0.3);
+    background: hsl(var(--background) / 0.8);
   }
 
   /* Enhanced loading animation */
@@ -191,12 +193,69 @@
   .scroll-smooth {
     scroll-behavior: smooth;
   }
+
+  /* Enhanced message styling */
+  .message-glow {
+    box-shadow: 0 4px 20px hsl(var(--nexora-primary) / 0.1);
+  }
+
+  /* Better text wrapping */
+  .break-anywhere {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    hyphens: auto;
+  }
+
+  /* Pulse animation for active elements */
+  .pulse-glow {
+    animation: pulseGlow 2s infinite;
+  }
+
+  /* Professional card styling */
+  .nexora-card {
+    background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--card) / 0.95) 100%);
+    border: 1px solid hsl(var(--border) / 0.5);
+    box-shadow: 0 2px 10px hsl(var(--shadow-color) / 0.1);
+  }
+
+  /* Advanced button styling */
+  .nexora-button {
+    background: linear-gradient(135deg, hsl(var(--nexora-primary)) 0%, hsl(var(--nexora-primary) / 0.9) 100%);
+    border: 1px solid hsl(var(--nexora-primary) / 0.3);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .nexora-button:hover {
+    background: linear-gradient(135deg, hsl(var(--nexora-primary) / 0.9) 0%, hsl(var(--nexora-primary) / 0.8) 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px hsl(var(--nexora-primary) / 0.25);
+  }
 }
 
 @keyframes messageSlideIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(15px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 10px hsl(var(--nexora-primary) / 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px hsl(var(--nexora-primary) / 0.4);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -238,6 +297,25 @@
 .message-container {
   will-change: transform;
   transform: translateZ(0);
+}
+
+/* Advanced text handling */
+.prose {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+.prose code {
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+
+.prose a {
+  word-break: break-all;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 
 /* Loading animations */

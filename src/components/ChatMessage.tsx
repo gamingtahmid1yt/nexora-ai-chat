@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { MarkdownRenderer } from "@/components/MarkdownRenderer";
 
 interface Message {
   role: "user" | "assistant";
@@ -85,14 +86,21 @@ export function ChatMessage({ message, className, onRegenerate }: ChatMessagePro
         </div>
 
         <div className={cn(
-          "rounded-lg p-3 max-w-[80%]",
+          "rounded-xl p-4 shadow-sm border border-border/50",
           isUser 
-            ? "bg-chat-bubble-user text-white ml-auto" 
-            : "bg-chat-bubble-ai"
+            ? "bg-gradient-to-br from-nexora-primary to-nexora-primary/90 text-white ml-auto max-w-[85%] backdrop-blur-sm" 
+            : "bg-card/80 backdrop-blur-sm max-w-[90%] border-l-4 border-l-nexora-primary/30"
         )}>
-          <p className="text-sm whitespace-pre-wrap leading-relaxed">
-            {message.content}
-          </p>
+          {isUser ? (
+            <p className="text-sm leading-relaxed break-words whitespace-pre-wrap">
+              {message.content}
+            </p>
+          ) : (
+            <MarkdownRenderer 
+              content={message.content} 
+              className="text-sm leading-relaxed" 
+            />
+          )}
           
           {message.imageUrl && (
             <div className="mt-3">
