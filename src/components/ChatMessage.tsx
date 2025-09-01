@@ -86,20 +86,22 @@ export function ChatMessage({ message, className, onRegenerate }: ChatMessagePro
         </div>
 
         <div className={cn(
-          "rounded-xl p-4 shadow-sm border border-border/50",
+          "rounded-xl shadow-sm border transition-all duration-200",
           isUser 
-            ? "bg-gradient-to-br from-nexora-primary to-nexora-primary/90 text-white ml-auto max-w-[85%] backdrop-blur-sm" 
-            : "bg-card/80 backdrop-blur-sm max-w-[90%] border-l-4 border-l-nexora-primary/30"
+            ? "bg-gradient-to-br from-nexora-primary to-nexora-primary/90 text-white ml-auto max-w-[85%] backdrop-blur-sm border-nexora-primary/20 p-4" 
+            : "bg-card/80 backdrop-blur-sm max-w-[95%] border-border/50 border-l-4 border-l-nexora-primary/30 hover:border-l-nexora-primary/50 p-4"
         )}>
           {isUser ? (
             <p className="text-sm leading-relaxed break-words whitespace-pre-wrap">
               {message.content}
             </p>
           ) : (
-            <MarkdownRenderer 
-              content={message.content} 
-              className="text-sm leading-relaxed" 
-            />
+            <div className="space-y-2">
+              <MarkdownRenderer 
+                content={message.content} 
+                className="text-sm leading-relaxed" 
+              />
+            </div>
           )}
           
           {message.imageUrl && (

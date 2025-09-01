@@ -155,7 +155,7 @@
   }
 
   .typing-indicator {
-    animation: pulse 1.5s infinite;
+    animation: typing 2s infinite ease-in-out;
   }
 
   .hover-scale {
@@ -263,6 +263,11 @@
   }
 }
 
+@keyframes typing {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
 @keyframes pulse {
   0%, 100% {
     opacity: 1;
@@ -270,6 +275,38 @@
   50% {
     opacity: 0.5;
   }
+}
+
+/* Smooth text reveal animation */
+@keyframes textReveal {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.text-reveal {
+  animation: textReveal 0.3s ease-out;
+}
+
+/* Enhanced bounce animation for dots */
+@keyframes smoothBounce {
+  0%, 80%, 100% {
+    transform: translateY(0);
+    opacity: 0.7;
+  }
+  40% {
+    transform: translateY(-8px);
+    opacity: 1;
+  }
+}
+
+.animate-bounce {
+  animation: smoothBounce 1.4s infinite ease-in-out;
 }
 
 @keyframes loadingDots {

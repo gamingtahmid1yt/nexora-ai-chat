@@ -15,14 +15,14 @@ export function TypingIndicator() {
           <span className="text-sm font-medium">Nexora AI</span>
         </div>
 
-        <div className="bg-chat-bubble-ai rounded-lg p-3 max-w-[80%]">
-          <div className="flex items-center gap-1">
+        <div className="bg-card/80 backdrop-blur-sm rounded-xl p-4 max-w-[90%] border border-border/50 border-l-4 border-l-nexora-primary/30 shadow-sm">
+          <div className="flex items-center gap-3">
             <div className="flex gap-1">
-              <div className="w-2 h-2 bg-nexora-primary rounded-full animate-pulse" />
-              <div className="w-2 h-2 bg-nexora-primary rounded-full animate-pulse delay-100" />
-              <div className="w-2 h-2 bg-nexora-primary rounded-full animate-pulse delay-200" />
+              <div className="w-2.5 h-2.5 bg-nexora-primary rounded-full animate-bounce" />
+              <div className="w-2.5 h-2.5 bg-nexora-primary rounded-full animate-bounce delay-100" />
+              <div className="w-2.5 h-2.5 bg-nexora-primary rounded-full animate-bounce delay-200" />
             </div>
-            <span className="text-sm text-muted-foreground ml-2 typing-indicator">
+            <span className="text-sm text-muted-foreground typing-indicator animate-pulse">
               Nexora is thinking...
             </span>
           </div>
