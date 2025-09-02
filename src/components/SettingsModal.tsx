@@ -152,6 +152,9 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
                     onClick={() => {
                       if (window.googleLogin) {
                         window.googleLogin();
+                        onOpenChange(false);
+                      } else {
+                        console.error('Google login function not available');
                       }
                     }}
                     className="bg-white hover:bg-gray-50 text-gray-900 border border-gray-300 shadow-sm w-full"

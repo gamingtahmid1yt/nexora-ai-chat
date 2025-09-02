@@ -29,8 +29,12 @@ export function ChatLayout() {
               <div className="flex items-center gap-4">
                 <SidebarTrigger />
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-nexora-primary to-nexora-secondary flex items-center justify-center">
-                    <span className="text-white font-bold text-sm">N</span>
+                  <div className="w-8 h-8 rounded-lg bg-white p-1 flex items-center justify-center">
+                    <img 
+                      src="https://tahmid1dev.github.io/nexora-ai-logo/NexoraAILogo.jpg" 
+                      alt="Nexora AI" 
+                      className="w-full h-full object-contain rounded"
+                    />
                   </div>
                   <h1 className="text-xl font-bold gradient-text">Nexora AI</h1>
                 </div>
