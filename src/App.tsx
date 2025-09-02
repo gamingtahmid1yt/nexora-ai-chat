@@ -14,6 +14,7 @@ const queryClient = new QueryClient();
 
 function AppContent() {
   const [showLoading, setShowLoading] = useState(true);
+  const [showLogin, setShowLogin] = useState(true);
   const { isAuthenticated, isLoading: authLoading } = useAuth();
 
   useEffect(() => {
@@ -33,8 +34,8 @@ function AppContent() {
     return <LoadingScreen onComplete={() => {}} />;
   }
 
-  if (!isAuthenticated) {
-    return <LoginPage onLogin={() => {}} />;
+  if (!isAuthenticated && showLogin) {
+    return <LoginPage onLogin={() => {}} onSkip={() => setShowLogin(false)} />;
   }
 
   return (

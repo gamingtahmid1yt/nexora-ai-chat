@@ -44,8 +44,11 @@ export function MarkdownRenderer({ content, className = "", enableTypewriter = f
     // Inline code (backticks) - but not code blocks
     processed = processed.replace(/`([^`\n]+)`/g, '<code class="px-1.5 py-0.5 mx-0.5 bg-muted rounded text-sm font-mono text-primary break-all">$1</code>');
     
-    // Angle brackets (HTML-like tags) - escape them
-    processed = processed.replace(/<([^<>]+)>/g, '<span class="text-blue-600 dark:text-blue-400 font-mono">&lt;$1&gt;</span>');
+    // Angle brackets (HTML-like tags) - escape them but avoid breaking already processed HTML
+    processed = processed.replace(/<(?!\/?(strong|code|span|a|br)\b)[^<>]*>/g, (match) => {
+      const content = match.slice(1, -1);
+      return `<span class="text-blue-600 dark:text-blue-400 font-mono">&lt;${content}&gt;</span>`;
+    });
     
     // URLs - make them clickable and blue
     const urlRegex = /(https?:\/\/[^\s<>"{}|\\^`[\]]+)/g;

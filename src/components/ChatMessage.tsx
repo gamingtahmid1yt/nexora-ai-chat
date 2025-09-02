@@ -1,10 +1,12 @@
 import { User, Bot, Copy, Check, RotateCcw } from "lucide-react";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { MarkdownRenderer } from "@/components/MarkdownRenderer";
+import { useAuth } from "@/hooks/useAuth";
+import nexoraLogo from "@/assets/nexora-logo.png";
 
 interface Message {
   role: "user" | "assistant";
@@ -23,6 +25,7 @@ export function ChatMessage({ message, className, onRegenerate }: ChatMessagePro
   const isUser = message.role === "user";
   const [copied, setCopied] = useState(false);
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(message.content);
@@ -45,6 +48,11 @@ export function ChatMessage({ message, className, onRegenerate }: ChatMessagePro
   return (
     <div className={cn("flex gap-3 group", className)}>
       <Avatar className="w-8 h-8 mt-1">
+        {isUser && user?.photoURL ? (
+          <AvatarImage src={user.photoURL} alt="User avatar" />
+        ) : !isUser ? (
+          <AvatarImage src={nexoraLogo} alt="Nexora AI" />
+        ) : null}
         <AvatarFallback className={cn(
           "text-sm font-medium",
           isUser 
@@ -91,18 +99,12 @@ export function ChatMessage({ message, className, onRegenerate }: ChatMessagePro
             ? "bg-gradient-to-br from-nexora-primary to-nexora-primary/90 text-white ml-auto max-w-[85%] backdrop-blur-sm border-nexora-primary/20 p-4" 
             : "bg-card/80 backdrop-blur-sm max-w-[95%] border-border/50 border-l-4 border-l-nexora-primary/30 hover:border-l-nexora-primary/50 p-4"
         )}>
-          {isUser ? (
-            <p className="text-sm leading-relaxed break-words whitespace-pre-wrap">
-              {message.content}
-            </p>
-          ) : (
-            <div className="space-y-2">
-              <MarkdownRenderer 
-                content={message.content} 
-                className="text-sm leading-relaxed" 
-              />
-            </div>
-          )}
+          <div className="space-y-2">
+            <MarkdownRenderer 
+              content={message.content} 
+              className="text-sm leading-relaxed" 
+            />
+          </div>
           
           {message.imageUrl && (
             <div className="mt-3">

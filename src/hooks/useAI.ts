@@ -102,7 +102,7 @@ export function useAI() {
           model: model,
           temperature: 0.8,
           top_p: 1.0,
-          max_tokens: 3000,
+          max_tokens: 3500,
           messages: [
             { role: 'system', content: SYSTEM_PROMPT },
             ...lastMessages,
