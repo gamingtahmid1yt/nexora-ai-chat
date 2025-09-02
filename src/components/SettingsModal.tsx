@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Trash2, Download, Shield, X, Palette, Monitor, Sun, Moon, Globe, Code, LogOut, User, Mail, Github } from "lucide-react";
-import nexoraLogo from "@/assets/nexora-logo.png";
+
 import { ConfirmDialog } from "@/components/ConfirmDialog";
 import {
   Dialog,
@@ -87,7 +87,7 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <div className="w-6 h-6 rounded bg-white p-1">
-              <img src={nexoraLogo} alt="Nexora AI" className="w-full h-full object-contain" />
+              <img src="https://tahmid1dev.github.io/nexora-ai-logo/NexoraAILogo.jpg" alt="Nexora AI" className="w-full h-full object-contain rounded" />
             </div>
             Nexora AI Settings
           </DialogTitle>

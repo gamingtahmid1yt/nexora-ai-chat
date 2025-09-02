@@ -26,8 +26,12 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
   return (
     <div className="fixed inset-0 bg-background flex items-center justify-center z-50">
       <div className="text-center space-y-6 animate-fade-in">
-        <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-nexora-primary to-nexora-secondary flex items-center justify-center shadow-lg animate-pulse">
-          <MessageSquare className="h-10 w-10 text-white" />
+        <div className="w-20 h-20 mx-auto rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center shadow-xl animate-pulse">
+          <img 
+            src="https://tahmid1dev.github.io/nexora-ai-logo/NexoraAILogo.jpg" 
+            alt="Nexora AI" 
+            className="w-16 h-16 rounded-full object-cover"
+          />
         </div>
         <div className="space-y-2">
           <h1 className="text-2xl font-bold gradient-text">Nexora AI</h1>

@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { MarkdownRenderer } from "@/components/MarkdownRenderer";
 import { useAuth } from "@/hooks/useAuth";
-import nexoraLogo from "@/assets/nexora-logo.png";
+
 
 interface Message {
   role: "user" | "assistant";
@@ -51,7 +51,7 @@ export function ChatMessage({ message, className, onRegenerate }: ChatMessagePro
         {isUser && user?.photoURL ? (
           <AvatarImage src={user.photoURL} alt="User avatar" />
         ) : !isUser ? (
-          <AvatarImage src={nexoraLogo} alt="Nexora AI" />
+          <AvatarImage src="https://tahmid1dev.github.io/nexora-ai-logo/NexoraAILogo.jpg" alt="Nexora AI" />
         ) : null}
         <AvatarFallback className={cn(
           "text-sm font-medium",

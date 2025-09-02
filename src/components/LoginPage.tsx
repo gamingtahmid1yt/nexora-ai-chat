@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MessageSquare, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import nexoraLogo from "@/assets/nexora-logo.png";
+
 
 interface LoginPageProps {
   onLogin: () => void;
@@ -166,7 +166,7 @@ export function LoginPage({ onLogin, onSkip }: LoginPageProps) {
         {/* Logo and Title */}
         <div className="text-center space-y-4">
           <div className="w-20 h-20 mx-auto rounded-full bg-white p-2 shadow-lg">
-            <img src={nexoraLogo} alt="Nexora AI" className="w-full h-full object-contain" />
+            <img src="https://tahmid1dev.github.io/nexora-ai-logo/NexoraAILogo.jpg" alt="Nexora AI" className="w-full h-full object-contain rounded-full" />
           </div>
           <div className="space-y-2">
             <h1 className="text-4xl font-bold gradient-text">Nexora AI</h1>
