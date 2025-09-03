@@ -4,6 +4,7 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { ChatInterface } from "@/components/ChatInterface";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { NetworkStatus } from "@/components/NetworkStatus";
+import { BannerAd } from "@/components/BannerAd";
 import { useTheme } from "@/hooks/useTheme";
 
 export function ChatLayout() {
@@ -49,6 +50,14 @@ export function ChatLayout() {
                 <ThemeToggle />
               </div>
             </header>
+
+            {/* Banner Ad */}
+            <div className="flex justify-center p-4 bg-muted/30 border-b border-border">
+              <BannerAd 
+                adCode='<!-- BD Ads Network - Ad Display Code --><div id="adm-container-1772"></div><script data-cfasync="false" async type="text/javascript" src="//bdadsnetwork.com/display/items.php?1772&1329&0&0&18&0&0"></script><!-- BD Ads Network - Ad Display Code -->'
+                className="flex-shrink-0"
+              />
+            </div>
 
             {/* Main Chat Area */}
             <main className="flex-1 flex flex-col overflow-hidden">
