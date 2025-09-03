@@ -33,6 +33,11 @@ export function ChatLayout() {
                     <img 
                       src="https://tahmid1dev.github.io/nexora-ai-logo/NexoraAILogo.jpg" 
                       alt="Nexora AI" 
+                      width={32}
+                      height={32}
+                      loading="eager"
+                      decoding="sync"
+                      fetchPriority="high"
                       className="w-full h-full object-contain rounded"
                     />
                   </div>

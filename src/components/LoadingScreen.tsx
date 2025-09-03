@@ -30,6 +30,11 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
           <img 
             src="https://tahmid1dev.github.io/nexora-ai-logo/NexoraAILogo.jpg" 
             alt="Nexora AI" 
+            width={64}
+            height={64}
+            loading="eager"
+            decoding="sync"
+            fetchPriority="high"
             className="w-16 h-16 rounded-full object-cover"
           />
         </div>

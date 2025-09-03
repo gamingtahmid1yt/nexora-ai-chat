@@ -112,7 +112,7 @@ export function ChatInterface() {
               <div className="w-16 h-16 md:w-20 md:h-20 mx-auto mb-4 md:mb-6 rounded-full bg-gradient-to-br from-nexora-primary to-nexora-secondary flex items-center justify-center shadow-lg">
                 <MessageSquare className="h-8 w-8 md:h-10 md:w-10 text-white" />
               </div>
-              <h2 className="text-2xl md:text-3xl font-bold mb-2 md:mb-3 gradient-text">Welcome to Nexora AI</h2>
+              <h1 className="text-2xl md:text-3xl font-bold mb-2 md:mb-3 gradient-text">Welcome to Nexora AI</h1>
               <p className="text-muted-foreground max-w-md mx-auto leading-relaxed text-sm md:text-base">
                 Your intelligent AI assistant. Ask me anything, and I'll help you with detailed, accurate responses.
               </p>
