@@ -41,11 +41,55 @@ export function MarkdownRenderer({ content, className = "", enableTypewriter = f
     // Bold text
     processed = processed.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-foreground">$1</strong>');
     
+    // Italic text
+    processed = processed.replace(/\*(.*?)\*/g, '<em class="italic text-foreground">$1</em>');
+    
+    // Strikethrough text
+    processed = processed.replace(/~~(.*?)~~/g, '<del class="line-through text-muted-foreground">$1</del>');
+    
+    // Headers
+    processed = processed.replace(/^### (.*$)/gm, '<h3 class="text-lg font-semibold text-foreground mt-4 mb-2">$1</h3>');
+    processed = processed.replace(/^## (.*$)/gm, '<h2 class="text-xl font-semibold text-foreground mt-4 mb-2">$1</h2>');
+    processed = processed.replace(/^# (.*$)/gm, '<h1 class="text-2xl font-bold text-foreground mt-4 mb-2">$1</h1>');
+    
+    // Lists
+    processed = processed.replace(/^\* (.*$)/gm, '<li class="ml-4 list-disc text-foreground">$1</li>');
+    processed = processed.replace(/^\- (.*$)/gm, '<li class="ml-4 list-disc text-foreground">$1</li>');
+    processed = processed.replace(/^\+ (.*$)/gm, '<li class="ml-4 list-disc text-foreground">$1</li>');
+    processed = processed.replace(/^\d+\. (.*$)/gm, '<li class="ml-4 list-decimal text-foreground">$1</li>');
+    
+    // Blockquotes
+    processed = processed.replace(/^> (.*$)/gm, '<blockquote class="border-l-4 border-primary pl-4 my-2 text-muted-foreground italic">$1</blockquote>');
+    
+    // Horizontal rules
+    processed = processed.replace(/^---$/gm, '<hr class="border-border my-4">');
+    processed = processed.replace(/^\*\*\*$/gm, '<hr class="border-border my-4">');
+    
+    // Math expressions
+    processed = processed.replace(/\$\$(.*?)\$\$/g, '<span class="math-block font-mono text-sm bg-muted px-2 py-1 rounded block my-2">$1</span>');
+    processed = processed.replace(/\$(.*?)\$/g, '<span class="math-inline font-mono text-sm bg-muted px-1 rounded">$1</span>');
+    
     // Inline code (backticks) - but not code blocks
     processed = processed.replace(/`([^`\n]+)`/g, '<code class="px-1.5 py-0.5 mx-0.5 bg-muted rounded text-sm font-mono text-primary break-all">$1</code>');
     
+    // Special symbols and emojis
+    processed = processed.replace(/:-?\)/g, '<span class="text-yellow-500">😊</span>');
+    processed = processed.replace(/:-?\(/g, '<span class="text-blue-500">😢</span>');
+    processed = processed.replace(/:D/g, '<span class="text-yellow-500">😃</span>');
+    processed = processed.replace(/;\)/g, '<span class="text-yellow-500">😉</span>');
+    processed = processed.replace(/<3/g, '<span class="text-red-500">❤️</span>');
+    processed = processed.replace(/\(c\)/gi, '<span class="text-muted-foreground">©</span>');
+    processed = processed.replace(/\(r\)/gi, '<span class="text-muted-foreground">®</span>');
+    processed = processed.replace(/\(tm\)/gi, '<span class="text-muted-foreground">™</span>');
+    processed = processed.replace(/\+\/-/g, '<span class="text-muted-foreground">±</span>');
+    processed = processed.replace(/->/g, '<span class="text-primary">→</span>');
+    processed = processed.replace(/<-/g, '<span class="text-primary">←</span>');
+    processed = processed.replace(/=>/g, '<span class="text-primary">⇒</span>');
+    processed = processed.replace(/<=/g, '<span class="text-primary">⇐</span>');
+    processed = processed.replace(/\.\.\./g, '<span class="text-muted-foreground">…</span>');
+    
     // Angle brackets (HTML-like tags) - escape them but avoid breaking already processed HTML
-    processed = processed.replace(/<(?!\/?(strong|code|span|a|br)\b)[^<>]*>/g, (match) => {
+    processed = processed.replace(/<(?!\/?(strong|code|span|a|br|h[1-6]|li|blockquote|hr|em|del)\b)[^<>]*>/g, (match) => {
       const content = match.slice(1, -1);
       return `<span class="text-blue-600 dark:text-blue-400 font-mono">&lt;${content}&gt;</span>`;
     });

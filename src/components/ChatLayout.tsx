@@ -25,29 +25,29 @@ export function ChatLayout() {
           
           <div className="flex-1 flex flex-col">
             {/* Header */}
-            <header className="sticky top-0 z-50 h-14 border-b border-border flex items-center justify-between px-4 bg-card/80 backdrop-blur-md shadow-sm">
-              <div className="flex items-center gap-4">
+            <header className="sticky top-0 z-50 h-12 md:h-14 border-b border-border flex items-center justify-between px-2 md:px-4 bg-card/80 backdrop-blur-md shadow-sm">
+              <div className="flex items-center gap-2 md:gap-4">
                 <SidebarTrigger />
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-white p-1 flex items-center justify-center">
+                <div className="flex items-center gap-1.5 md:gap-2">
+                  <div className="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-white p-1 flex items-center justify-center">
                     <img 
                       src="https://tahmid1dev.github.io/nexora-ai-logo/NexoraAILogo.jpg" 
                       alt="Nexora AI" 
                       className="w-full h-full object-contain rounded"
                     />
                   </div>
-                  <h1 className="text-xl font-bold gradient-text">Nexora AI</h1>
+                  <h1 className="text-lg md:text-xl font-bold gradient-text">Nexora AI</h1>
                 </div>
               </div>
               
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1 md:gap-2">
                 <NetworkStatus />
                 <ThemeToggle />
               </div>
             </header>
 
             {/* Main Chat Area */}
-            <main className="flex-1 flex flex-col">
+            <main className="flex-1 flex flex-col overflow-hidden">
               <ChatInterface />
             </main>
           </div>

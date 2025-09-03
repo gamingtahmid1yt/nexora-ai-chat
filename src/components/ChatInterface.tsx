@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChatMessage } from "@/components/ChatMessage";
 import { TypingIndicator } from "@/components/TypingIndicator";
+import { ScrollToBottomButton } from "@/components/ScrollToBottomButton";
 import { useChatStore } from "@/stores/chatStore";
 import { useAI } from "@/hooks/useAI";
 import { useToast } from "@/hooks/use-toast";
@@ -101,24 +102,25 @@ export function ChatInterface() {
   }, [currentSession?.messages, isLoading]);
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full relative">
       {/* Messages Area */}
-      <ScrollArea ref={scrollAreaRef} className="flex-1 p-4 scroll-smooth">
-        <div className="max-w-4xl mx-auto space-y-4">
+      <ScrollArea ref={scrollAreaRef} className="flex-1 p-2 md:p-4 scroll-smooth">
+        <ScrollToBottomButton scrollAreaRef={scrollAreaRef} />
+        <div className="max-w-4xl mx-auto space-y-4 pb-4">
           {!currentSession?.messages.length ? (
-            <div className="text-center py-20 animate-fade-in">
-              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-nexora-primary to-nexora-secondary flex items-center justify-center shadow-lg">
-                <MessageSquare className="h-10 w-10 text-white" />
+            <div className="text-center py-12 md:py-20 animate-fade-in px-4">
+              <div className="w-16 h-16 md:w-20 md:h-20 mx-auto mb-4 md:mb-6 rounded-full bg-gradient-to-br from-nexora-primary to-nexora-secondary flex items-center justify-center shadow-lg">
+                <MessageSquare className="h-8 w-8 md:h-10 md:w-10 text-white" />
               </div>
-              <h2 className="text-3xl font-bold mb-3 gradient-text">Welcome to Nexora AI</h2>
-              <p className="text-muted-foreground max-w-md mx-auto leading-relaxed">
+              <h2 className="text-2xl md:text-3xl font-bold mb-2 md:mb-3 gradient-text">Welcome to Nexora AI</h2>
+              <p className="text-muted-foreground max-w-md mx-auto leading-relaxed text-sm md:text-base">
                 Your intelligent AI assistant. Ask me anything, and I'll help you with detailed, accurate responses.
               </p>
-              <div className="mt-6 flex flex-wrap gap-2 justify-center">
-                <div className="text-xs bg-muted px-3 py-1 rounded-full">💡 Creative Writing</div>
-                <div className="text-xs bg-muted px-3 py-1 rounded-full">🔍 Research & Analysis</div>
-                <div className="text-xs bg-muted px-3 py-1 rounded-full">💻 Code Assistance</div>
-                <div className="text-xs bg-muted px-3 py-1 rounded-full">📝 Problem Solving</div>
+              <div className="mt-4 md:mt-6 flex flex-wrap gap-1.5 md:gap-2 justify-center px-2">
+                <div className="text-xs bg-muted px-2 md:px-3 py-1 rounded-full">💡 Creative Writing</div>
+                <div className="text-xs bg-muted px-2 md:px-3 py-1 rounded-full">🔍 Research & Analysis</div>
+                <div className="text-xs bg-muted px-2 md:px-3 py-1 rounded-full">💻 Code Assistance</div>
+                <div className="text-xs bg-muted px-2 md:px-3 py-1 rounded-full">📝 Problem Solving</div>
               </div>
             </div>
           ) : (
@@ -138,23 +140,23 @@ export function ChatInterface() {
 
       {/* Input Area - Enhanced */}
       <div className="sticky bottom-0 z-40 border-t border-border bg-card/95 backdrop-blur-md shadow-lg">
-        <div className="max-w-4xl mx-auto p-4"
-             >
+        <div className="max-w-4xl mx-auto p-2 md:p-4">
           {/* Quick Actions Bar */}
           {currentSession?.messages.length > 0 && (
-            <div className="flex gap-2 mb-3 justify-center">
+            <div className="flex gap-2 mb-2 md:mb-3 justify-center">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={handleClearChat}
-                className="gap-2 text-xs"
+                className="gap-1 md:gap-2 text-xs h-8"
                 title="Clear chat (Ctrl+K)"
               >
                 <Trash2 className="h-3 w-3" />
-                New Chat
+                <span className="hidden sm:inline">New Chat</span>
+                <span className="sm:hidden">New</span>
               </Button>
-              <div className="text-xs text-muted-foreground px-2 py-1 bg-muted/50 rounded">
-                {currentSession.messages.length} messages
+              <div className="text-xs text-muted-foreground px-2 py-1 bg-muted/50 rounded h-8 flex items-center">
+                {currentSession.messages.length} msg{currentSession.messages.length > 1 ? 's' : ''}
               </div>
             </div>
           )}
@@ -166,7 +168,7 @@ export function ChatInterface() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Message Nexora AI... (Press Enter to send, Ctrl+K for new chat)"
-                className="min-h-[60px] max-h-32 resize-none bg-background/80 border-border focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                className="min-h-[50px] md:min-h-[60px] max-h-24 md:max-h-32 resize-none bg-background/80 border-border focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-sm md:text-base"
                 disabled={isLoading}
               />
             </div>
@@ -174,8 +176,7 @@ export function ChatInterface() {
               <Button
                 type="submit"
                 disabled={!input.trim() || isLoading}
-                className="bg-nexora-primary hover:bg-nexora-primary/90 transition-all duration-200 hover:scale-105"
-                size="icon"
+                className="bg-nexora-primary hover:bg-nexora-primary/90 transition-all duration-200 hover:scale-105 h-[50px] md:h-[60px] w-12 md:w-14"
                 title="Send message (Enter)"
               >
                 {isLoading ? (
@@ -186,8 +187,8 @@ export function ChatInterface() {
               </Button>
             </div>
           </form>
-          <div className="flex items-center justify-between mt-3 text-xs text-muted-foreground">
-            <span>Nexora AI can make mistakes. Consider checking important information.</span>
+          <div className="flex flex-col sm:flex-row items-center justify-between mt-2 md:mt-3 text-xs text-muted-foreground gap-2 sm:gap-0">
+            <span className="text-center sm:text-left">Nexora AI can make mistakes. Consider checking important information.</span>
             <span className="text-xs">Powered by advanced AI models</span>
           </div>
         </div>
