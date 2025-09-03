@@ -86,27 +86,35 @@ export function ChatInterface() {
   };
 
 
-  // Auto-scroll to bottom with smooth animation
   useEffect(() => {
+    console.log('ChatInterface: Auto-scroll effect triggered', {
+      messageCount: currentSession?.messages?.length,
+      isLoading,
+      scrollAreaRef: !!scrollAreaRef.current
+    });
+    
     if (scrollAreaRef.current) {
       const scrollContainer = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
+      console.log('ChatInterface: Scroll container found:', !!scrollContainer);
+      
       if (scrollContainer) {
         requestAnimationFrame(() => {
           scrollContainer.scrollTo({
             top: scrollContainer.scrollHeight,
             behavior: 'smooth'
           });
+          console.log('ChatInterface: Scrolled to bottom');
         });
       }
     }
   }, [currentSession?.messages, isLoading]);
 
   return (
-    <div className="flex flex-col h-full relative">
+    <div className="flex flex-col h-screen">
       <ScrollToBottomButton scrollAreaRef={scrollAreaRef} />
       {/* Messages Area */}
       <ScrollArea ref={scrollAreaRef} className="flex-1 p-2 md:p-4 scroll-smooth">
-        <div className="max-w-4xl mx-auto space-y-4 pb-4">
+        <div className="max-w-4xl mx-auto space-y-4 pb-24 md:pb-32">
           {!currentSession?.messages.length ? (
             <div className="text-center py-12 md:py-20 animate-fade-in px-4">
               <div className="w-16 h-16 md:w-20 md:h-20 mx-auto mb-4 md:mb-6 rounded-full bg-gradient-to-br from-nexora-primary to-nexora-secondary flex items-center justify-center shadow-lg">
@@ -138,8 +146,8 @@ export function ChatInterface() {
         </div>
       </ScrollArea>
 
-      {/* Input Area - Enhanced */}
-      <div className="sticky bottom-0 z-40 border-t border-border bg-card/95 backdrop-blur-md shadow-lg">
+      {/* Input Area - Fixed and Always Sticky */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-card/95 backdrop-blur-md shadow-lg">
         <div className="max-w-4xl mx-auto p-2 md:p-4">
           {/* Quick Actions Bar */}
           {currentSession?.messages.length > 0 && (
