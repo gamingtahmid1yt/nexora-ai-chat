@@ -15,7 +15,7 @@ export function BannerAd({ adCode, className = "" }: BannerAdProps) {
   // When ad code is provided, render it
   return (
     <div 
-      className={`w-full border-b border-border ${className}`}
+      className={`w-full border-b border-border bg-card/50 backdrop-blur-sm ${className}`}
       dangerouslySetInnerHTML={{ __html: adCode }}
     />
   );
