@@ -44,8 +44,9 @@ export function ChatInterface() {
     
     createNewSession();
     toast({
-      title: "Chat cleared",
-      description: "Started a new conversation",
+      title: "✨ New Chat Started",
+      description: "Ready for a fresh conversation with Nexora AI",
+      duration: 2000,
     });
   };
 
@@ -119,18 +120,34 @@ export function ChatInterface() {
         <div className="max-w-4xl mx-auto space-y-4 pb-56 md:pb-64">
           {!currentSession?.messages.length ? (
             <div className="text-center py-12 md:py-20 animate-fade-in px-4">
-              <div className="w-16 h-16 md:w-20 md:h-20 mx-auto mb-4 md:mb-6 rounded-full bg-gradient-to-br from-nexora-primary to-nexora-secondary flex items-center justify-center shadow-lg">
-                <MessageSquare className="h-8 w-8 md:h-10 md:w-10 text-white" />
+              <div className="w-20 h-20 md:w-24 md:h-24 mx-auto mb-6 md:mb-8 rounded-full bg-gradient-to-br from-nexora-primary to-nexora-secondary flex items-center justify-center shadow-xl nexora-card">
+                <img 
+                  src="/src/assets/nexora-logo.png" 
+                  alt="Nexora AI" 
+                  className="h-12 w-12 md:h-14 md:w-14 object-contain filter brightness-0 invert"
+                />
               </div>
-              <h1 className="text-2xl md:text-3xl font-bold mb-2 md:mb-3 gradient-text">Welcome to Nexora AI</h1>
-              <p className="text-muted-foreground max-w-md mx-auto leading-relaxed text-sm md:text-base">
-                Your intelligent AI assistant. Ask me anything, and I'll help you with detailed, accurate responses.
+              <h1 className="text-3xl md:text-4xl font-bold mb-3 md:mb-4 gradient-text">Welcome to Nexora AI</h1>
+              <p className="text-muted-foreground max-w-lg mx-auto leading-relaxed text-base md:text-lg mb-6">
+                Your intelligent AI assistant powered by advanced reasoning. Ask me anything, and I'll provide detailed, accurate responses tailored to your needs.
               </p>
-              <div className="mt-4 md:mt-6 flex flex-wrap gap-1.5 md:gap-2 justify-center px-2">
-                <div className="text-xs bg-muted px-2 md:px-3 py-1 rounded-full">💡 Creative Writing</div>
-                <div className="text-xs bg-muted px-2 md:px-3 py-1 rounded-full">🔍 Research & Analysis</div>
-                <div className="text-xs bg-muted px-2 md:px-3 py-1 rounded-full">💻 Code Assistance</div>
-                <div className="text-xs bg-muted px-2 md:px-3 py-1 rounded-full">📝 Problem Solving</div>
+              <div className="mt-6 md:mt-8 grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 max-w-2xl mx-auto px-2">
+                <div className="text-sm bg-gradient-to-r from-nexora-primary/10 to-nexora-secondary/10 border border-nexora-primary/20 px-3 md:px-4 py-2 rounded-lg nexora-card">
+                  <div className="text-lg mb-1">💡</div>
+                  <div className="font-medium">Creative Writing</div>
+                </div>
+                <div className="text-sm bg-gradient-to-r from-nexora-primary/10 to-nexora-secondary/10 border border-nexora-primary/20 px-3 md:px-4 py-2 rounded-lg nexora-card">
+                  <div className="text-lg mb-1">🔍</div>
+                  <div className="font-medium">Research & Analysis</div>
+                </div>
+                <div className="text-sm bg-gradient-to-r from-nexora-primary/10 to-nexora-secondary/10 border border-nexora-primary/20 px-3 md:px-4 py-2 rounded-lg nexora-card">
+                  <div className="text-lg mb-1">💻</div>
+                  <div className="font-medium">Code Assistance</div>
+                </div>
+                <div className="text-sm bg-gradient-to-r from-nexora-primary/10 to-nexora-secondary/10 border border-nexora-primary/20 px-3 md:px-4 py-2 rounded-lg nexora-card">
+                  <div className="text-lg mb-1">📝</div>
+                  <div className="font-medium">Problem Solving</div>
+                </div>
               </div>
             </div>
           ) : (
@@ -148,25 +165,25 @@ export function ChatInterface() {
         </div>
       </ScrollArea>
 
-      {/* Input Area - Fixed and Always Sticky */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-card/95 backdrop-blur-md shadow-lg">
+      {/* Input Area - Enhanced Design */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border/50 bg-gradient-to-t from-background via-background/95 to-background/90 backdrop-blur-xl shadow-2xl">
         <div className="max-w-4xl mx-auto p-2 md:p-4">
-          {/* Quick Actions Bar */}
+          {/* Quick Actions Bar - Enhanced */}
           {currentSession?.messages.length > 0 && (
             <div className="flex gap-2 mb-2 md:mb-3 justify-center">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={handleClearChat}
-                className="gap-1 md:gap-2 text-xs h-8"
+                className="gap-1 md:gap-2 text-xs h-8 border-nexora-primary/30 hover:bg-nexora-primary/10 hover:border-nexora-primary/50 transition-all duration-300"
                 title="Clear chat (Ctrl+K)"
               >
                 <Trash2 className="h-3 w-3" />
                 <span className="hidden sm:inline">New Chat</span>
                 <span className="sm:hidden">New</span>
               </Button>
-              <div className="text-xs text-muted-foreground px-2 py-1 bg-muted/50 rounded h-8 flex items-center">
-                {currentSession.messages.length} msg{currentSession.messages.length > 1 ? 's' : ''}
+              <div className="text-xs text-muted-foreground px-3 py-1 bg-gradient-to-r from-nexora-primary/5 to-nexora-secondary/5 border border-nexora-primary/20 rounded-lg h-8 flex items-center">
+                {currentSession.messages.length} message{currentSession.messages.length > 1 ? 's' : ''}
               </div>
             </div>
           )}
@@ -178,7 +195,7 @@ export function ChatInterface() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Message Nexora AI... (Press Enter to send, Ctrl+K for new chat)"
-                className="min-h-[50px] md:min-h-[60px] max-h-24 md:max-h-32 resize-none bg-background/80 border-border focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-sm md:text-base"
+                className="min-h-[50px] md:min-h-[60px] max-h-24 md:max-h-32 resize-none bg-background/80 border-border/50 focus:border-nexora-primary/50 focus:ring-2 focus:ring-nexora-primary/20 transition-all duration-300 text-sm md:text-base rounded-xl"
                 disabled={isLoading}
               />
             </div>
@@ -186,7 +203,7 @@ export function ChatInterface() {
               <Button
                 type="submit"
                 disabled={!input.trim() || isLoading}
-                className="bg-nexora-primary hover:bg-nexora-primary/90 transition-all duration-200 hover:scale-105 h-[50px] md:h-[60px] w-12 md:w-14"
+                className="nexora-button h-[50px] md:h-[60px] w-12 md:w-14 rounded-xl"
                 title="Send message (Enter)"
               >
                 {isLoading ? (
@@ -199,8 +216,8 @@ export function ChatInterface() {
           </form>
           {/* Removed disclaimer texts as requested */}
         </div>
-        {/* Banner Ads */}
-        <div className="border-t border-border bg-background/95 backdrop-blur-sm">
+        {/* Banner Ads - Enhanced Design */}
+        <div className="border-t border-border/30 bg-gradient-to-r from-background/95 via-background/98 to-background/95 backdrop-blur-sm">
           <BannerAd adCode='<div id="adm-container-1772"></div><script data-cfasync="false" async type="text/javascript" src="//bdadsnetwork.com/display/items.php?1772&1329&0&0&18&0&0"></script>' />
         </div>
       </div>
