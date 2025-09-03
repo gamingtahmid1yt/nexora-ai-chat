@@ -201,7 +201,7 @@ export function ChatInterface() {
         </div>
         {/* Banner Ads */}
         <div className="border-t border-border bg-background/95 backdrop-blur-sm">
-          <BannerAd />
+          <BannerAd adCode='<div id="adm-container-1772"></div><script data-cfasync="false" async type="text/javascript" src="//bdadsnetwork.com/display/items.php?1772&1329&0&0&18&0&0"></script>' />
         </div>
       </div>
     </div>
