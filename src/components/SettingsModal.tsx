@@ -150,11 +150,26 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
                   </p>
                   <Button
                     onClick={() => {
-                      if (window.googleLogin) {
-                        window.googleLogin();
-                        onOpenChange(false);
+                      console.log('Login button clicked');
+                      if (typeof window !== 'undefined' && window.googleLogin) {
+                        try {
+                          window.googleLogin();
+                          onOpenChange(false);
+                        } catch (error) {
+                          console.error('Login error:', error);
+                          toast({
+                            title: "Login Error",
+                            description: "Failed to initiate Google login. Please try again.",
+                            variant: "destructive",
+                          });
+                        }
                       } else {
                         console.error('Google login function not available');
+                        toast({
+                          title: "Login Unavailable",
+                          description: "Google login is not available at the moment.",
+                          variant: "destructive",
+                        });
                       }
                     }}
                     className="bg-white hover:bg-gray-50 text-gray-900 border border-gray-300 shadow-sm w-full"
