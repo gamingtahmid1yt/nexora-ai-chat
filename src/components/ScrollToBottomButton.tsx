@@ -116,7 +116,7 @@ export function ScrollToBottomButton({ scrollAreaRef }: ScrollToBottomButtonProp
   if (!isVisible) return null;
 
   return (
-    <div className="fixed bottom-24 md:bottom-32 left-1/2 transform -translate-x-1/2 z-40 animate-fade-in">
+    <div className="fixed bottom-20 md:bottom-24 right-4 z-40 animate-fade-in">
       <Button
         onClick={scrollToBottom}
         size="sm"

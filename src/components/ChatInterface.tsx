@@ -197,10 +197,7 @@ export function ChatInterface() {
               </Button>
             </div>
           </form>
-          <div className="flex flex-col sm:flex-row items-center justify-between mt-2 md:mt-3 text-xs text-muted-foreground gap-2 sm:gap-0">
-            <span className="text-center sm:text-left">Nexora AI can make mistakes. Consider checking important information.</span>
-            <span className="text-xs">Powered by advanced AI models</span>
-          </div>
+          {/* Removed disclaimer texts as requested */}
         </div>
       </div>
     </div>
