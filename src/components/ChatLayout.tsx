@@ -37,7 +37,6 @@ export function ChatLayout() {
                       height={32}
                       loading="eager"
                       decoding="sync"
-                      fetchPriority="high"
                       className="w-full h-full object-contain rounded"
                     />
                   </div>
