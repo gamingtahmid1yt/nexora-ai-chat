@@ -24,6 +24,7 @@ interface ChatMessageProps {
 export function ChatMessage({ message, className, onRegenerate }: ChatMessageProps) {
   const isUser = message.role === "user";
   const [copied, setCopied] = useState(false);
+  const [isSelectable, setIsSelectable] = useState(false);
   const { toast } = useToast();
   const { user } = useAuth();
 
@@ -42,6 +43,12 @@ export function ChatMessage({ message, className, onRegenerate }: ChatMessagePro
   const handleRegenerate = () => {
     if (onRegenerate) {
       onRegenerate();
+    }
+  };
+
+  const toggleSelectable = () => {
+    if (!isUser) {
+      setIsSelectable(!isSelectable);
     }
   };
 
@@ -93,13 +100,17 @@ export function ChatMessage({ message, className, onRegenerate }: ChatMessagePro
           )}
         </div>
 
-        <div className={cn(
-          "rounded-2xl shadow-lg border transition-all duration-300 transform hover:scale-[1.02]",
-          isUser 
-            ? "bg-gradient-to-br from-nexora-primary via-nexora-primary/95 to-nexora-primary/85 text-white ml-auto max-w-[85%] backdrop-blur-sm border-nexora-primary/30 shadow-nexora-primary/20 p-5 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/10 before:to-transparent before:rounded-2xl" 
-            : "bg-gradient-to-br from-card/90 to-card/80 backdrop-blur-md max-w-[95%] border-border/60 border-l-4 border-l-nexora-primary/40 hover:border-l-nexora-primary/70 shadow-md hover:shadow-lg p-6 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/5 before:to-transparent before:rounded-2xl select-none",
-          !isUser && "select-none"
-        )}>
+        <div 
+          className={cn(
+            "rounded-2xl shadow-lg border transition-all duration-300 transform hover:scale-[1.02]",
+            isUser 
+              ? "bg-gradient-to-br from-nexora-primary via-nexora-primary/95 to-nexora-primary/85 text-white ml-auto max-w-[85%] backdrop-blur-sm border-nexora-primary/30 shadow-nexora-primary/20 p-5 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/10 before:to-transparent before:rounded-2xl" 
+              : "bg-gradient-to-br from-card/90 to-card/80 backdrop-blur-md max-w-[95%] border-border/60 border-l-4 border-l-nexora-primary/40 hover:border-l-nexora-primary/70 shadow-md hover:shadow-lg p-6 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/5 before:to-transparent before:rounded-2xl cursor-pointer",
+            !isUser && !isSelectable && "select-none",
+            !isUser && isSelectable && "select-text"
+          )}
+          onClick={toggleSelectable}
+        >
           <div className="space-y-3">
             <MarkdownRenderer 
               content={message.content} 
