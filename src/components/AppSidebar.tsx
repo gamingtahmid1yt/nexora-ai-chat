@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { MessageCircle, Settings, Plus, Trash2, History, Zap, Brain, Sparkles } from "lucide-react";
+import { MessageCircle, Settings, Plus, Trash2, History, Zap, Brain, Sparkles, Search } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Input } from "@/components/ui/input";
 import { SettingsModal } from "@/components/SettingsModal";
 import { useChatStore } from "@/stores/chatStore";
 
@@ -20,11 +21,25 @@ export function AppSidebar() {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
   const [showSettings, setShowSettings] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const { chatSessions, currentSessionId, createNewSession, switchSession, deleteSession } = useChatStore();
 
   const startNewChat = () => {
     createNewSession();
   };
+
+  // Filter chat sessions based on search query
+  const filteredSessions = chatSessions.filter((session) => {
+    if (!searchQuery.trim()) return true;
+    
+    const query = searchQuery.toLowerCase();
+    const title = (session.title || `Chat ${session.id.slice(0, 8)}`).toLowerCase();
+    const hasMatchingMessage = session.messages.some(message => 
+      message.content.toLowerCase().includes(query)
+    );
+    
+    return title.includes(query) || hasMatchingMessage;
+  });
 
   return (
     <Sidebar className={collapsed ? "w-14" : "w-72"} collapsible="icon">
@@ -41,6 +56,21 @@ export function AppSidebar() {
           </Button>
         </div>
 
+        {/* Search Bar */}
+        {!collapsed && (
+          <div className="px-3 pb-3">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search chats..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-9 h-9 bg-background/50"
+              />
+            </div>
+          </div>
+        )}
+
         {/* Chat History */}
         <SidebarGroup>
           <SidebarGroupLabel className="text-xs text-muted-foreground px-3">
@@ -49,7 +79,7 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <ScrollArea className="h-64">
               <SidebarMenu className="px-2">
-                {chatSessions.map((session) => (
+                {filteredSessions.map((session) => (
                   <SidebarMenuItem key={session.id}>
                     <SidebarMenuButton
                       asChild
@@ -83,9 +113,9 @@ export function AppSidebar() {
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
-                {chatSessions.length === 0 && !collapsed && (
+                {filteredSessions.length === 0 && !collapsed && (
                   <div className="px-3 py-4 text-center text-sm text-muted-foreground">
-                    No chats yet. Start a new conversation!
+                    {searchQuery.trim() ? "No matching chats found" : "No chats yet. Start a new conversation!"}
                   </div>
                 )}
               </SidebarMenu>
