@@ -374,12 +374,7 @@
   animation: shimmer 1.5s infinite;
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-  }
+/* Additional animation classes for better UX */
+.animate-fade-in {
+  animation: fadeInUp 0.4s ease-out;
 }

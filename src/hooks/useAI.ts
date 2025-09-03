@@ -45,6 +45,7 @@ export function useAI() {
   const { toast } = useToast();
 
   const sendMessage = async (prompt: string) => {
+    console.log('useAI: Starting sendMessage with prompt:', prompt.substring(0, 100) + '...');
     setIsLoading(true);
 
     try {
@@ -54,26 +55,31 @@ export function useAI() {
         content: msg.content
       })) || [];
 
+      console.log('useAI: Context messages count:', lastMessages.length);
+
       // Try primary model first
+      console.log('useAI: Trying primary model:', PRIMARY_MODEL);
       let response = await tryModel(PRIMARY_MODEL, prompt, lastMessages);
       
       // If primary fails, try backup model
       if (!response) {
-        console.log('Primary model failed, trying backup model...');
+        console.log('useAI: Primary model failed, trying backup model:', BACKUP_MODEL);
         response = await tryModel(BACKUP_MODEL, prompt, lastMessages);
       }
 
       if (response) {
+        console.log('useAI: Received response, length:', response.length);
         addMessage({
           role: 'assistant',
           content: response,
           timestamp: new Date(),
         });
       } else {
+        console.error('useAI: Both models failed to respond');
         throw new Error('Both models failed to respond');
       }
     } catch (error) {
-      console.error('AI Error:', error);
+      console.error('useAI: Error occurred:', error);
       addMessage({
         role: 'assistant',
         content: "I'm sorry, I'm having trouble connecting right now. Please check your internet connection and try again. If the problem persists, try restarting your browser. 😔",
@@ -86,46 +92,61 @@ export function useAI() {
         variant: "destructive",
       });
     } finally {
+      console.log('useAI: Finishing sendMessage, setting loading to false');
       setIsLoading(false);
     }
   };
 
   const tryModel = async (model: string, prompt: string, lastMessages: any[]): Promise<string | null> => {
+    console.log(`useAI: Attempting model ${model} with ${lastMessages.length} context messages`);
+    
     try {
+      const requestBody = {
+        model: model,
+        temperature: 0.8,
+        top_p: 1.0,
+        max_tokens: 3500,
+        messages: [
+          { role: 'system', content: SYSTEM_PROMPT },
+          ...lastMessages,
+          { role: 'user', content: prompt }
+        ]
+      };
+
+      console.log(`useAI: Making API request to ${API_URL} with model ${model}`);
+      
       const response = await fetch(API_URL, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${API_KEY}`
         },
-        body: JSON.stringify({
-          model: model,
-          temperature: 0.8,
-          top_p: 1.0,
-          max_tokens: 3500,
-          messages: [
-            { role: 'system', content: SYSTEM_PROMPT },
-            ...lastMessages,
-            { role: 'user', content: prompt }
-          ]
-        })
+        body: JSON.stringify(requestBody)
       });
 
+      console.log(`useAI: API response status: ${response.status} ${response.statusText}`);
+
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorText = await response.text();
+        console.error(`useAI: HTTP error response:`, errorText);
+        throw new Error(`HTTP error! status: ${response.status}, body: ${errorText}`);
       }
 
       const data = await response.json();
+      console.log(`useAI: Received data structure:`, Object.keys(data));
       
       if (data.choices && data.choices[0] && data.choices[0].message) {
+        console.log(`useAI: Found response in choices[0].message, length: ${data.choices[0].message.content?.length}`);
         return data.choices[0].message.content;
       } else if (data.content) {
+        console.log(`useAI: Found response in content, length: ${data.content.length}`);
         return data.content;
       } else {
+        console.error('useAI: Invalid response format, available keys:', Object.keys(data));
         throw new Error('Invalid response format');
       }
     } catch (error) {
-      console.error(`Model ${model} failed:`, error);
+      console.error(`useAI: Model ${model} failed with error:`, error);
       return null;
     }
   };

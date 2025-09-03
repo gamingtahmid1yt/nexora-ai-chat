@@ -39,6 +39,8 @@ export const useChatStore = create<ChatStore>()(
 
       createNewSession: () => {
         const sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        console.log('chatStore: Creating new session with ID:', sessionId);
+        
         const newSession: ChatSession = {
           id: sessionId,
           messages: [],
@@ -46,11 +48,14 @@ export const useChatStore = create<ChatStore>()(
           updatedAt: new Date(),
         };
 
-        set((state) => ({
-          chatSessions: [newSession, ...state.chatSessions],
-          currentSessionId: sessionId,
-          currentSession: newSession,
-        }));
+        set((state) => {
+          console.log('chatStore: Adding new session to store, total sessions will be:', state.chatSessions.length + 1);
+          return {
+            chatSessions: [newSession, ...state.chatSessions],
+            currentSessionId: sessionId,
+            currentSession: newSession,
+          };
+        });
       },
 
       switchSession: (sessionId: string) => {
@@ -90,13 +95,18 @@ export const useChatStore = create<ChatStore>()(
 
       addMessage: (message: Omit<Message, 'id'>) => {
         const state = get();
+        console.log('chatStore: Adding message:', { role: message.role, contentLength: message.content.length });
+        
         if (!state.currentSession) {
-          // Create a new session if none exists
+          console.log('chatStore: No current session, creating new one');
           get().createNewSession();
         }
 
         const currentSession = get().currentSession;
-        if (!currentSession) return;
+        if (!currentSession) {
+          console.error('chatStore: Failed to get current session after creation');
+          return;
+        }
 
         const updatedSession: ChatSession = {
           ...currentSession,
@@ -109,6 +119,8 @@ export const useChatStore = create<ChatStore>()(
               : currentSession.title
           ),
         };
+
+        console.log('chatStore: Updated session will have messages:', updatedSession.messages.length);
 
         set((state) => ({
           chatSessions: state.chatSessions.map(session =>
