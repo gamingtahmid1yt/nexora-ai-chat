@@ -99,7 +99,7 @@ export function AppSidebar() {
                             <Button
                               variant="ghost"
                               size="icon"
-                              className="h-6 w-6 opacity-60 hover:opacity-100 hover:bg-destructive hover:text-destructive-foreground"
+                              className="h-6 w-6 opacity-0 group-hover:opacity-100 hover:bg-destructive hover:text-destructive-foreground"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 deleteSession(session.id);
