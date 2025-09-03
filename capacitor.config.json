@@ -1,0 +1,16 @@
+{
+  "appId": "app.lovable.ad7225afa15740b2965e29a0bdb83a8b",
+  "appName": "nexora-ai-chat",
+  "webDir": "dist",
+  "server": {
+    "url": "https://ad7225af-a157-40b2-965e-29a0bdb83a8b.lovableproject.com?forceHideBadge=true",
+    "cleartext": true
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "backgroundColor": "#262626",
+      "showSpinner": false
+    }
+  }
+}

@@ -6,6 +6,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChatMessage } from "@/components/ChatMessage";
 import { TypingIndicator } from "@/components/TypingIndicator";
 import { ScrollToBottomButton } from "@/components/ScrollToBottomButton";
+import { MobileSettings } from "@/components/MobileSettings";
+import { BannerAd } from "@/components/BannerAd";
 import { useChatStore } from "@/stores/chatStore";
 import { useAI } from "@/hooks/useAI";
 import { useToast } from "@/hooks/use-toast";
