@@ -10,7 +10,7 @@ import { MobileSettings } from "@/components/MobileSettings";
 import { BannerAd } from "@/components/BannerAd";
 import { useChatStore } from "@/stores/chatStore";
 import { useAI } from "@/hooks/useAI";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 
 export function ChatInterface() {
   const [input, setInput] = useState("");
@@ -46,7 +46,7 @@ export function ChatInterface() {
     toast({
       title: "✨ New Chat Started",
       description: "Ready for a fresh conversation with Nexora AI",
-      duration: 2000,
+      duration: 3000,
     });
   };
 
@@ -122,9 +122,9 @@ export function ChatInterface() {
             <div className="text-center py-12 md:py-20 animate-fade-in px-4">
               <div className="w-20 h-20 md:w-24 md:h-24 mx-auto mb-6 md:mb-8 rounded-full bg-gradient-to-br from-nexora-primary to-nexora-secondary flex items-center justify-center shadow-xl nexora-card">
                 <img 
-                  src="/src/assets/nexora-logo.png" 
+                  src="/src/assets/nexora-ai-logo.jpg" 
                   alt="Nexora AI" 
-                  className="h-12 w-12 md:h-14 md:w-14 object-contain filter brightness-0 invert"
+                  className="h-12 w-12 md:h-14 md:w-14 object-contain rounded-full"
                 />
               </div>
               <h1 className="text-3xl md:text-4xl font-bold mb-3 md:mb-4 gradient-text">Welcome to Nexora AI</h1>
