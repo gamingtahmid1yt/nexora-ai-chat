@@ -249,8 +249,8 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
           <div>
             <h3 className="text-sm font-medium mb-2">App Info</h3>
             <div className="text-sm text-muted-foreground space-y-1">
-              <p>Version: 2025.08</p>
-              <p>Last Updated: 12 Aug 2025</p>
+              <p>Version: 2025.09</p>
+              <p>Last Updated: 04 Sept 2025</p>
               <p>Created by: Tahmid</p>
             </div>
           </div>
@@ -297,32 +297,6 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
                 Contact Support
               </Button>
 
-              <Button
-                variant="outline"
-                onClick={() => window.open('https://github.com/gamingtahmid1yt/nexora-ai', '_blank')}
-                className="w-full justify-start gap-2"
-              >
-                <Github className="h-4 w-4" />
-                Source Code
-              </Button>
-              
-              <Button
-                variant="outline"
-                onClick={() => window.open('https://gamingtahmid1yt.github.io/nexora.ai-download/', '_blank')}
-                className="w-full justify-start gap-2"
-              >
-                <Download className="h-4 w-4" />
-                Download APK
-              </Button>
-              
-              <Button
-                variant="outline"
-                onClick={() => window.open('https://gamingtahmid1yt.github.io/nexora.ai-privacy/', '_blank')}
-                className="w-full justify-start gap-2"
-              >
-                <Shield className="h-4 w-4" />
-                Privacy Policy
-              </Button>
             </div>
           </div>
 
