@@ -103,9 +103,9 @@ export function ChatInterface() {
 
   return (
     <div className="flex flex-col h-full relative">
+      <ScrollToBottomButton scrollAreaRef={scrollAreaRef} />
       {/* Messages Area */}
       <ScrollArea ref={scrollAreaRef} className="flex-1 p-2 md:p-4 scroll-smooth">
-        <ScrollToBottomButton scrollAreaRef={scrollAreaRef} />
         <div className="max-w-4xl mx-auto space-y-4 pb-4">
           {!currentSession?.messages.length ? (
             <div className="text-center py-12 md:py-20 animate-fade-in px-4">

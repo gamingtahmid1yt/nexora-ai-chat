@@ -12,27 +12,44 @@ export function ScrollToBottomButton({ scrollAreaRef }: ScrollToBottomButtonProp
   useEffect(() => {
     const scrollContainer = scrollAreaRef.current?.querySelector('[data-radix-scroll-area-viewport]') as HTMLElement;
     
-    if (!scrollContainer) return;
+    if (!scrollContainer) {
+      console.log('ScrollToBottomButton: No scroll container found');
+      return;
+    }
 
     const handleScroll = () => {
-      const { scrollTop, scrollHeight, clientHeight } = scrollContainer;
-      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 100;
-      setIsVisible(!isAtBottom && scrollHeight > clientHeight);
+      try {
+        const { scrollTop, scrollHeight, clientHeight } = scrollContainer;
+        const isAtBottom = scrollTop + clientHeight >= scrollHeight - 100;
+        setIsVisible(!isAtBottom && scrollHeight > clientHeight);
+      } catch (error) {
+        console.error('ScrollToBottomButton scroll error:', error);
+      }
     };
 
     scrollContainer.addEventListener('scroll', handleScroll);
     handleScroll(); // Check initial state
 
-    return () => scrollContainer.removeEventListener('scroll', handleScroll);
+    return () => {
+      try {
+        scrollContainer.removeEventListener('scroll', handleScroll);
+      } catch (error) {
+        console.error('ScrollToBottomButton cleanup error:', error);
+      }
+    };
   }, [scrollAreaRef]);
 
   const scrollToBottom = () => {
-    const scrollContainer = scrollAreaRef.current?.querySelector('[data-radix-scroll-area-viewport]') as HTMLElement;
-    if (scrollContainer) {
-      scrollContainer.scrollTo({
-        top: scrollContainer.scrollHeight,
-        behavior: 'smooth'
-      });
+    try {
+      const scrollContainer = scrollAreaRef.current?.querySelector('[data-radix-scroll-area-viewport]') as HTMLElement;
+      if (scrollContainer) {
+        scrollContainer.scrollTo({
+          top: scrollContainer.scrollHeight,
+          behavior: 'smooth'
+        });
+      }
+    } catch (error) {
+      console.error('ScrollToBottomButton scroll to bottom error:', error);
     }
   };
 

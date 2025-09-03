@@ -72,21 +72,22 @@ export function MarkdownRenderer({ content, className = "", enableTypewriter = f
     // Inline code (backticks) - but not code blocks
     processed = processed.replace(/`([^`\n]+)`/g, '<code class="px-1.5 py-0.5 mx-0.5 bg-muted rounded text-sm font-mono text-primary break-all">$1</code>');
     
-    // Special symbols and emojis
+    // Special symbols and emojis - process these BEFORE angle brackets
     processed = processed.replace(/:-?\)/g, '<span class="text-yellow-500">😊</span>');
     processed = processed.replace(/:-?\(/g, '<span class="text-blue-500">😢</span>');
     processed = processed.replace(/:D/g, '<span class="text-yellow-500">😃</span>');
     processed = processed.replace(/;\)/g, '<span class="text-yellow-500">😉</span>');
-    processed = processed.replace(/<3/g, '<span class="text-red-500">❤️</span>');
     processed = processed.replace(/\(c\)/gi, '<span class="text-muted-foreground">©</span>');
     processed = processed.replace(/\(r\)/gi, '<span class="text-muted-foreground">®</span>');
     processed = processed.replace(/\(tm\)/gi, '<span class="text-muted-foreground">™</span>');
     processed = processed.replace(/\+\/-/g, '<span class="text-muted-foreground">±</span>');
+    processed = processed.replace(/\.\.\./g, '<span class="text-muted-foreground">…</span>');
+    
+    // Arrow symbols - process before angle brackets
     processed = processed.replace(/->/g, '<span class="text-primary">→</span>');
     processed = processed.replace(/<-/g, '<span class="text-primary">←</span>');
     processed = processed.replace(/=>/g, '<span class="text-primary">⇒</span>');
     processed = processed.replace(/<=/g, '<span class="text-primary">⇐</span>');
-    processed = processed.replace(/\.\.\./g, '<span class="text-muted-foreground">…</span>');
     
     // Angle brackets (HTML-like tags) - escape them but avoid breaking already processed HTML
     processed = processed.replace(/<(?!\/?(strong|code|span|a|br|h[1-6]|li|blockquote|hr|em|del)\b)[^<>]*>/g, (match) => {
