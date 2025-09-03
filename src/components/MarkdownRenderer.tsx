@@ -81,8 +81,11 @@ export function MarkdownRenderer({ content, className = "", enableTypewriter = f
       return '<tr>' + cells.map((cell: string) => `<td class="border border-border px-3 py-2">${cell}</td>`).join('') + '</tr>';
     });
     
-    // Comparison tables and vs patterns
-    processed = processed.replace(/(\w+)\s+vs\.?\s+(\w+)/gi, '<span class="comparison-highlight bg-gradient-to-r from-blue-100 to-green-100 dark:from-blue-900/30 dark:to-green-900/30 px-2 py-1 rounded font-medium">$1 <span class="text-muted-foreground">vs</span> $2</span>');
+    // Comparison tables and vs patterns with better spacing
+    processed = processed.replace(/(\w+)\s+vs\.?\s+(\w+)/gi, '<span class="comparison-highlight bg-gradient-to-r from-blue-100 to-green-100 dark:from-blue-900/30 dark:to-green-900/30 px-3 py-2 rounded-lg font-medium mx-1 inline-block">$1 <span class="text-muted-foreground font-normal">vs</span> $2</span>');
+    
+    // Number comparisons with highlighting
+    processed = processed.replace(/(\d+(?:\.\d+)?)\s*([><≥≤=≠±]+)\s*(\d+(?:\.\d+)?)/g, '<span class="number-comparison bg-muted px-2 py-1 rounded font-mono text-sm">$1 <span class="text-primary font-bold">$2</span> $3</span>');
     
     // Inline code (backticks) - but not code blocks
     processed = processed.replace(/`([^`\n]+)`/g, '<code class="px-2 py-1 mx-1 bg-muted rounded text-sm font-mono text-primary break-all border">$1</code>');
@@ -104,11 +107,26 @@ export function MarkdownRenderer({ content, className = "", enableTypewriter = f
     processed = processed.replace(/=>/g, '<span class="text-primary font-mono">⇒</span>');
     processed = processed.replace(/<=/g, '<span class="text-primary font-mono">⇐</span>');
     
+    // URLs - must be processed before angle brackets
+    processed = processed.replace(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g, 
+      '<a href="$&" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline transition-colors duration-200 break-all">$&</a>');
+    
+    // Email addresses
+    processed = processed.replace(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g, 
+      '<a href="mailto:$&" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline transition-colors duration-200">$&</a>');
+    
     // Angle brackets (HTML-like tags) - escape them but avoid breaking already processed HTML
     processed = processed.replace(/<(?!\/?(strong|code|span|a|br|h[1-6]|li|blockquote|hr|em|del|ul|ol|div|tr|td|table)\b)[^<>]*>/g, (match) => {
       const content = match.slice(1, -1);
       return `<span class="text-blue-600 dark:text-blue-400 font-mono">&lt;${content}&gt;</span>`;
     });
+    
+    // Better spacing and line breaks
+    processed = processed.replace(/\n\n/g, '<br><br>');
+    processed = processed.replace(/\n/g, '<br>');
+    
+    // Improve spacing around elements
+    processed = processed.replace(/(<\/?(h[1-6]|blockquote|ul|ol|div|hr)>)/g, '$1\n');
     
     console.log('MarkdownRenderer: Code blocks found:', codeBlocks.length);
     console.log('MarkdownRenderer: Processed content length:', processed.length);
@@ -147,11 +165,12 @@ export function MarkdownRenderer({ content, className = "", enableTypewriter = f
 
   return (
     <div 
-      className={`prose prose-sm max-w-none dark:prose-invert leading-relaxed ${className}`}
+      className={`prose prose-sm max-w-none dark:prose-invert leading-relaxed space-y-2 ${className}`}
       style={{
         wordBreak: 'break-word',
         overflowWrap: 'break-word',
-        maxWidth: '100%'
+        maxWidth: '100%',
+        lineHeight: '1.7'
       }}
     >
       {renderContent()}

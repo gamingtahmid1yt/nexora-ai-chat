@@ -116,14 +116,14 @@ export function ScrollToBottomButton({ scrollAreaRef }: ScrollToBottomButtonProp
   if (!isVisible) return null;
 
   return (
-    <div className="fixed bottom-20 md:bottom-24 right-4 z-40 animate-fade-in">
+    <div className="fixed bottom-32 md:bottom-36 right-6 z-50 animate-fade-in">
       <Button
         onClick={scrollToBottom}
         size="sm"
-        className="rounded-full shadow-lg bg-nexora-primary hover:bg-nexora-primary/90 text-white border-2 border-white/20 backdrop-blur-sm hover:scale-105 transition-all duration-200"
+        className="rounded-full shadow-lg bg-nexora-primary hover:bg-nexora-primary/90 text-white border-2 border-white/20 backdrop-blur-sm hover:scale-105 transition-all duration-200 w-12 h-12"
         title="Scroll to bottom"
       >
-        <ChevronDown className="h-4 w-4" />
+        <ChevronDown className="h-5 w-5" />
       </Button>
     </div>
   );
