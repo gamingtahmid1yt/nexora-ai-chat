@@ -101,6 +101,7 @@
     /* Enhanced Nexora dark theme colors */
     --nexora-primary: 263 70% 50%;
     --nexora-primary-light: 263 70% 60%;
+    --nexora-secondary: 230 100% 60%;
     --nexora-accent: 262 90% 75%;
     --nexora-bg-gradient: linear-gradient(135deg, hsl(263 70% 50% / 0.15), hsl(230 100% 60% / 0.1));
     --nexora-chat-user: 263 70% 50%;

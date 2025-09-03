@@ -34,9 +34,9 @@ export function AppSidebar() {
     
     const query = searchQuery.toLowerCase();
     const title = (session.title || `Chat ${session.id.slice(0, 8)}`).toLowerCase();
-    const hasMatchingMessage = session.messages.some(message => 
-      message.content.toLowerCase().includes(query)
-    );
+    const hasMatchingMessage = session.messages?.some(message => 
+      message.content?.toLowerCase().includes(query)
+    ) || false;
     
     return title.includes(query) || hasMatchingMessage;
   });
