@@ -199,6 +199,8 @@ export function ChatInterface() {
           </form>
           {/* Removed disclaimer texts as requested */}
         </div>
+        {/* Empty space for banner ads (300x250) */}
+        <div className="h-64 md:h-80"></div>
       </div>
     </div>
   );
