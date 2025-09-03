@@ -6,46 +6,46 @@
 
 @layer base {
   :root {
-    /* Light theme */
+    /* Enhanced Light theme */
     --background: 0 0% 100%;
-    --foreground: 210 6% 15%;
+    --foreground: 222 84% 4.9%;
 
     --card: 0 0% 100%;
-    --card-foreground: 210 6% 15%;
+    --card-foreground: 222 84% 4.9%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 210 6% 15%;
+    --popover-foreground: 222 84% 4.9%;
 
     --primary: 262 83% 58%;
-    --primary-foreground: 0 0% 100%;
+    --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96%;
-    --secondary-foreground: 210 6% 15%;
+    --secondary-foreground: 222 47% 11%;
 
     --muted: 210 40% 96%;
-    --muted-foreground: 215 20% 50%;
+    --muted-foreground: 215 16% 47%;
 
     --accent: 210 40% 96%;
-    --accent-foreground: 210 6% 15%;
+    --accent-foreground: 222 47% 11%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214 31% 91%;
-    --input: 214 31% 91%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
     --ring: 262 83% 58%;
 
-    --radius: 0.75rem;
+    --radius: 0.875rem;
 
-    /* Nexora specific colors */
+    /* Enhanced Nexora brand colors */
     --nexora-primary: 262 83% 58%;
-    --nexora-primary-light: 262 83% 70%;
+    --nexora-primary-light: 262 83% 68%;
     --nexora-secondary: 230 100% 60%;
-    --nexora-accent: 280 100% 70%;
-    --nexora-bg-gradient: linear-gradient(135deg, hsl(262 83% 58% / 0.1), hsl(230 100% 60% / 0.1));
+    --nexora-accent: 262 90% 75%;
+    --nexora-bg-gradient: linear-gradient(135deg, hsl(262 83% 58% / 0.12), hsl(230 100% 60% / 0.08));
     --nexora-chat-user: 262 83% 58%;
     --nexora-chat-ai: 210 6% 15%;
-    --nexora-success: 142 76% 36%;
+    --nexora-success: 142 71% 45%;
     --nexora-warning: 38 92% 50%;
 
     /* Chat specific */
@@ -69,44 +69,48 @@
   }
 
   .dark {
-    /* Dark theme - Primary Nexora Theme */
-    --background: 222 84% 5%;
-    --foreground: 210 40% 98%;
+    /* Enhanced Dark theme - Premium Nexora Experience */
+    --background: 224 71% 4%;
+    --foreground: 213 31% 91%;
 
-    --card: 222 84% 7%;
-    --card-foreground: 210 40% 98%;
+    --card: 224 71% 4%;
+    --card-foreground: 213 31% 91%;
 
-    --popover: 222 84% 7%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 224 71% 4%;
+    --popover-foreground: 213 31% 91%;
 
-    --primary: 262 83% 58%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 263 70% 50%;
+    --primary-foreground: 213 31% 91%;
 
-    --secondary: 217 33% 18%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 215 28% 17%;
+    --secondary-foreground: 213 31% 91%;
 
-    --muted: 217 33% 18%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 215 28% 17%;
+    --muted-foreground: 217 11% 65%;
 
-    --accent: 217 33% 18%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 215 28% 17%;
+    --accent-foreground: 213 31% 91%;
 
     --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 213 31% 91%;
 
-    --border: 217 33% 18%;
-    --input: 217 33% 18%;
-    --ring: 262 83% 58%;
+    --border: 215 28% 17%;
+    --input: 215 28% 17%;
+    --ring: 263 70% 50%;
 
-    /* Nexora dark colors */
-    --nexora-bg-gradient: linear-gradient(135deg, hsl(262 83% 58% / 0.2), hsl(230 100% 60% / 0.2));
-    --nexora-chat-user: 262 83% 58%;
-    --nexora-chat-ai: 217 33% 18%;
+    /* Enhanced Nexora dark theme colors */
+    --nexora-primary: 263 70% 50%;
+    --nexora-primary-light: 263 70% 60%;
+    --nexora-accent: 262 90% 75%;
+    --nexora-bg-gradient: linear-gradient(135deg, hsl(263 70% 50% / 0.15), hsl(230 100% 60% / 0.1));
+    --nexora-chat-user: 263 70% 50%;
+    --nexora-chat-ai: 215 28% 17%;
+    --nexora-success: 142 71% 45%;
 
-    /* Chat dark */
-    --chat-bubble-user: 262 83% 58%;
-    --chat-bubble-ai: 217 33% 18%;
-    --chat-input-bg: 217 33% 18%;
+    /* Enhanced Chat dark theme */
+    --chat-bubble-user: 263 70% 50%;
+    --chat-bubble-ai: 215 28% 17%;
+    --chat-input-bg: 224 71% 4%;
 
     /* Sidebar dark */
     --sidebar-background: 222 84% 4%;
@@ -130,21 +134,32 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
-  /* Smooth scrollbar */
+  /* Premium Scrollbar Design */
   ::-webkit-scrollbar {
-    width: 6px;
+    width: 8px;
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-transparent;
+    background: hsl(var(--background));
+    border-radius: var(--radius);
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-border rounded-full;
+    background: linear-gradient(45deg, 
+      hsl(var(--nexora-primary) / 0.3), 
+      hsl(var(--nexora-primary-light) / 0.5)
+    );
+    border-radius: var(--radius);
+    border: 2px solid hsl(var(--background));
+    transition: all 0.3s ease;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-muted-foreground;
+    background: linear-gradient(45deg, 
+      hsl(var(--nexora-primary) / 0.5), 
+      hsl(var(--nexora-primary-light) / 0.7)
+    );
+    transform: scale(1.1);
   }
 }
 
@@ -178,10 +193,17 @@
     background: var(--nexora-bg-gradient);
   }
 
+  /* Premium Glass Effect */
   .glass-effect {
-    backdrop-filter: blur(12px);
-    border: 1px solid hsl(var(--border) / 0.3);
-    background: hsl(var(--background) / 0.8);
+    backdrop-filter: blur(20px) saturate(180%);
+    background: linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.1), 
+      rgba(255, 255, 255, 0.05)
+    );
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 
+      0 8px 32px 0 rgba(31, 38, 135, 0.37),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
   /* Enhanced loading animation */
@@ -211,24 +233,93 @@
     animation: pulseGlow 2s infinite;
   }
 
-  /* Professional card styling */
+  /* Premium Card Design */
   .nexora-card {
-    background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--card) / 0.95) 100%);
-    border: 1px solid hsl(var(--border) / 0.5);
-    box-shadow: 0 2px 10px hsl(var(--shadow-color) / 0.1);
+    background: linear-gradient(135deg, 
+      hsl(var(--card)), 
+      hsl(var(--card) / 0.95)
+    );
+    border: 1px solid hsl(var(--border));
+    border-radius: calc(var(--radius) * 1.5);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 
+      0 4px 16px hsl(var(--foreground) / 0.08),
+      0 0 0 1px hsl(var(--nexora-primary) / 0.05);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .nexora-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+      hsl(var(--nexora-primary)), 
+      hsl(var(--nexora-primary-light))
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .nexora-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 
+      0 12px 40px hsl(var(--foreground) / 0.12),
+      0 0 0 1px hsl(var(--nexora-primary) / 0.1);
+  }
+  
+  .nexora-card:hover::before {
+    opacity: 1;
   }
 
-  /* Advanced button styling */
+  /* Premium Button Design */
   .nexora-button {
-    background: linear-gradient(135deg, hsl(var(--nexora-primary)) 0%, hsl(var(--nexora-primary) / 0.9) 100%);
-    border: 1px solid hsl(var(--nexora-primary) / 0.3);
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    background: linear-gradient(135deg, 
+      hsl(var(--nexora-primary)), 
+      hsl(var(--nexora-primary-light))
+    );
+    border: 1px solid hsl(var(--nexora-primary) / 0.2);
+    color: white;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    border-radius: calc(var(--radius) * 1.2);
+    box-shadow: 
+      0 4px 12px hsl(var(--nexora-primary) / 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
-
+  
+  .nexora-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+      transparent, 
+      rgba(255, 255, 255, 0.25), 
+      transparent
+    );
+    transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .nexora-button:hover::before {
+    left: 100%;
+  }
+  
   .nexora-button:hover {
-    background: linear-gradient(135deg, hsl(var(--nexora-primary) / 0.9) 0%, hsl(var(--nexora-primary) / 0.8) 100%);
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px hsl(var(--nexora-primary) / 0.25);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 
+      0 12px 32px hsl(var(--nexora-primary) / 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+  
+  .nexora-button:active {
+    transform: translateY(0) scale(1.02);
   }
 }
 
