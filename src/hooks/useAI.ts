@@ -52,8 +52,8 @@ export function useAI() {
     setIsLoading(true);
 
     try {
-      // Get last 12 messages for context
-      const lastMessages = currentSession?.messages.slice(-12).map(msg => ({
+      // Get last 10 messages for context
+      const lastMessages = currentSession?.messages.slice(-10).map(msg => ({
         role: msg.role,
         content: msg.content
       })) || [];
