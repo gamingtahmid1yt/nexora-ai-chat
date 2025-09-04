@@ -29,10 +29,10 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
   const { user, logout } = useAuth();
   const [showClearConfirm, setShowClearConfirm] = useState(false);
   const [notifications, setNotifications] = useState(
-    localStorage.getItem('nexora-notifications') !== 'false'
+    localStorage.getItem('qwell-notifications') !== 'false'
   );
   const [animations, setAnimations] = useState(
-    localStorage.getItem('nexora-animations') !== 'false'
+    localStorage.getItem('qwell-animations') !== 'false'
   );
 
   const handleClearAllChats = () => {
@@ -46,13 +46,13 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
   };
 
   const handleExportData = () => {
-    const data = localStorage.getItem('nexora-chat-store');
+    const data = localStorage.getItem('qwell-chat-store');
     if (data) {
       const blob = new Blob([data], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `nexora-chat-backup-${new Date().toISOString().split('T')[0]}.json`;
+      a.download = `qwell-chat-backup-${new Date().toISOString().split('T')[0]}.json`;
       a.click();
       URL.revokeObjectURL(url);
       
@@ -65,7 +65,7 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
 
   const handleNotificationsChange = (checked: boolean) => {
     setNotifications(checked);
-    localStorage.setItem('nexora-notifications', checked.toString());
+    localStorage.setItem('qwell-notifications', checked.toString());
     toast({
       title: checked ? "Notifications enabled" : "Notifications disabled",
       description: checked ? "You'll receive notifications" : "Notifications are turned off",
@@ -74,7 +74,7 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
 
   const handleAnimationsChange = (checked: boolean) => {
     setAnimations(checked);
-    localStorage.setItem('nexora-animations', checked.toString());
+    localStorage.setItem('qwell-animations', checked.toString());
     toast({
       title: checked ? "Animations enabled" : "Animations disabled",
       description: checked ? "UI animations are turned on" : "UI animations are turned off",
@@ -87,9 +87,9 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <div className="w-6 h-6 rounded bg-white p-1">
-              <img src="https://tahmid1dev.github.io/nexora-ai-logo/NexoraAILogo.jpg" alt="Nexora AI" className="w-full h-full object-contain rounded" />
+              <img src="https://tahmid1dev.github.io/nexora-ai-logo/NexoraAILogo.jpg" alt="Qwell AI" className="w-full h-full object-contain rounded" />
             </div>
-            Nexora AI Settings
+            Qwell AI Settings
           </DialogTitle>
         </DialogHeader>
 
@@ -180,7 +180,7 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
                       <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                       <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                     </svg>
-                    Continue with Google
+                    Sign in with Google
                   </Button>
                 </div>
               </div>

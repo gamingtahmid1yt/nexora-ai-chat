@@ -62,7 +62,14 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// Nexora specific colors - using hyphen notation
+				// Qwell specific colors - using hyphen notation
+				'qwell-primary': 'hsl(var(--qwell-primary))',
+				'qwell-primary-light': 'hsl(var(--qwell-primary-light))',
+				'qwell-secondary': 'hsl(var(--qwell-secondary))',
+				'qwell-accent': 'hsl(var(--qwell-accent))',
+				'qwell-success': 'hsl(var(--qwell-success))',
+				'qwell-warning': 'hsl(var(--qwell-warning))',
+				// Nexora colors for backward compatibility  
 				'nexora-primary': 'hsl(var(--nexora-primary))',
 				'nexora-primary-light': 'hsl(var(--nexora-primary-light))',
 				'nexora-secondary': 'hsl(var(--nexora-secondary))',

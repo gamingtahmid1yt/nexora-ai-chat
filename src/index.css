@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Nexora AI Design System - Modern AI Interface */
+/* Qwell AI Design System - Modern AI Interface */
 
 @layer base {
   :root {
@@ -37,16 +37,22 @@
 
     --radius: 0.875rem;
 
-    /* Enhanced Nexora brand colors */
+    /* Enhanced Qwell brand colors */
+    --qwell-primary: 262 83% 58%;
+    --qwell-primary-light: 262 83% 68%;
+    --qwell-secondary: 230 100% 60%;
+    --qwell-accent: 262 90% 75%;
+    --qwell-bg-gradient: linear-gradient(135deg, hsl(262 83% 58% / 0.12), hsl(230 100% 60% / 0.08));
+    --qwell-chat-user: 262 83% 58%;
+    --qwell-chat-ai: 210 6% 15%;
+    --qwell-success: 142 71% 45%;
+    --qwell-warning: 38 92% 50%;
+    
+    /* Nexora colors for backward compatibility */
     --nexora-primary: 262 83% 58%;
     --nexora-primary-light: 262 83% 68%;
     --nexora-secondary: 230 100% 60%;
     --nexora-accent: 262 90% 75%;
-    --nexora-bg-gradient: linear-gradient(135deg, hsl(262 83% 58% / 0.12), hsl(230 100% 60% / 0.08));
-    --nexora-chat-user: 262 83% 58%;
-    --nexora-chat-ai: 210 6% 15%;
-    --nexora-success: 142 71% 45%;
-    --nexora-warning: 38 92% 50%;
 
     /* Chat specific */
     --chat-bubble-user: 262 83% 58%;
@@ -98,15 +104,21 @@
     --input: 215 28% 17%;
     --ring: 263 70% 50%;
 
-    /* Enhanced Nexora dark theme colors */
+    /* Enhanced Qwell dark theme colors */
+    --qwell-primary: 263 70% 50%;
+    --qwell-primary-light: 263 70% 60%;
+    --qwell-secondary: 230 100% 60%;
+    --qwell-accent: 262 90% 75%;
+    --qwell-bg-gradient: linear-gradient(135deg, hsl(263 70% 50% / 0.15), hsl(230 100% 60% / 0.1));
+    --qwell-chat-user: 263 70% 50%;
+    --qwell-chat-ai: 215 28% 17%;
+    --qwell-success: 142 71% 45%;
+    
+    /* Nexora colors for backward compatibility */
     --nexora-primary: 263 70% 50%;
     --nexora-primary-light: 263 70% 60%;
     --nexora-secondary: 230 100% 60%;
     --nexora-accent: 262 90% 75%;
-    --nexora-bg-gradient: linear-gradient(135deg, hsl(263 70% 50% / 0.15), hsl(230 100% 60% / 0.1));
-    --nexora-chat-user: 263 70% 50%;
-    --nexora-chat-ai: 215 28% 17%;
-    --nexora-success: 142 71% 45%;
 
     /* Enhanced Chat dark theme */
     --chat-bubble-user: 263 70% 50%;

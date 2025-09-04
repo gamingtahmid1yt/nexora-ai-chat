@@ -34,12 +34,13 @@ export function LoginPage({ onLogin, onSkip }: LoginPageProps) {
 
       // Your Firebase Config
       const firebaseConfig = {
-        apiKey: "AIzaSyCEJcoBHBxl2UY-1eFURduX3h5M2bAP-Gc",
-        authDomain: "nexora-ai-cabb7.firebaseapp.com",
-        projectId: "nexora-ai-cabb7",
-        storageBucket: "nexora-ai-cabb7.firebasestorage.app",
-        messagingSenderId: "709302061659",
-        appId: "1:709302061659:web:ddab826758da672ded4d7e"
+        apiKey: "AIzaSyBE6-uLHIPfyMA7rsrHSkEznr_bhgNi3oI",
+        authDomain: "qwell-ai.firebaseapp.com",
+        projectId: "qwell-ai",
+        storageBucket: "qwell-ai.firebasestorage.app",
+        messagingSenderId: "264232146695",
+        appId: "1:264232146695:web:13d4a712835129e82ed7a2",
+        measurementId: "G-1MK21HKTBV"
       };
 
       // Initialize Firebase
@@ -181,7 +182,7 @@ export function LoginPage({ onLogin, onSkip }: LoginPageProps) {
           </div>
           <div className="space-y-3">
             <h1 className="text-5xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-              Nexora AI
+              Qwell AI
             </h1>
             <p className="text-lg text-muted-foreground font-medium">Your intelligent AI companion</p>
             <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
@@ -194,7 +195,7 @@ export function LoginPage({ onLogin, onSkip }: LoginPageProps) {
         {/* Login Card */}
         <Card className="border-border/50 shadow-2xl bg-background/80 backdrop-blur-sm">
           <CardHeader className="text-center space-y-3 pb-6">
-            <CardTitle className="text-2xl font-semibold">Welcome to Nexora</CardTitle>
+            <CardTitle className="text-2xl font-semibold">Welcome to Qwell</CardTitle>
             <p className="text-muted-foreground">
               Sign in to unlock personalized AI conversations and save your chat history
             </p>
