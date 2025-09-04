@@ -183,8 +183,10 @@ export function LoginPage({ onLogin, onSkip }: LoginPageProps) {
             </p>
           </CardHeader>
           <CardContent className="space-y-4">
-            <p className="text-sm text-muted-foreground text-center mb-4">
-              Google login/sign up is optional, you can skip and continue to chat
+            <p className="text-sm text-center mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+              <span className="text-red-600 dark:text-red-400 font-semibold">
+                Google login/sign up is optional, you can skip and continue to chat
+              </span>
             </p>
             
             <div className="space-y-3">
