@@ -24,11 +24,11 @@ function AppContent() {
   useEffect(() => {
     console.log('AppContent: Initializing with auth state:', { isAuthenticated, authLoading });
     
-    // Show loading screen for 500ms
+    // Show loading screen for 300ms (reduced for faster load)
     const timer = setTimeout(() => {
       console.log('AppContent: Loading timer complete, hiding loading screen');
       setShowLoading(false);
-    }, 500);
+    }, 300);
 
     return () => {
       console.log('AppContent: Cleaning up loading timer');

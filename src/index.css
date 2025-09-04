@@ -470,3 +470,17 @@
 .animate-fade-in {
   animation: fadeInUp 0.4s ease-out;
 }
+
+/* Floating animation for loading screen */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: float 2s ease-in-out infinite;
+}

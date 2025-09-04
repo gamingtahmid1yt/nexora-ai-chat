@@ -107,9 +107,19 @@ export function MarkdownRenderer({ content, className = "", enableTypewriter = f
     processed = processed.replace(/=>/g, '<span class="text-primary font-mono">⇒</span>');
     processed = processed.replace(/<=/g, '<span class="text-primary font-mono">⇐</span>');
     
-    // URLs - must be processed before angle brackets
-    processed = processed.replace(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g, 
-      '<a href="$&" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline transition-colors duration-200 break-all">$&</a>');
+    // Enhanced URLs with better styling and preview
+    processed = processed.replace(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g, (match) => {
+      const domain = match.replace(/https?:\/\/(www\.)?/, '').split('/')[0];
+      return `<a href="${match}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3 py-2 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-all duration-200 no-underline group">
+        <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+        </svg>
+        <span class="font-medium">${domain}</span>
+        <svg class="w-3 h-3 opacity-50 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </a>`;
+    });
     
     // Email addresses
     processed = processed.replace(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g, 
@@ -121,9 +131,13 @@ export function MarkdownRenderer({ content, className = "", enableTypewriter = f
       return `<span class="text-blue-600 dark:text-blue-400 font-mono">&lt;${content}&gt;</span>`;
     });
     
-    // Better spacing and line breaks
-    processed = processed.replace(/\n\n/g, '<br><br>');
-    processed = processed.replace(/\n/g, '<br>');
+    // Better spacing and line breaks with proper word spacing
+    processed = processed.replace(/\n\n+/g, '<br class="my-4">');
+    processed = processed.replace(/\n/g, '<br class="my-1">');
+    
+    // Ensure proper spacing between words and sentences
+    processed = processed.replace(/([.!?])\s+([A-Z])/g, '$1 <span class="inline-block w-1"></span>$2');
+    processed = processed.replace(/(\w)\s+(\w)/g, '$1 $2');
     
     // Improve spacing around elements
     processed = processed.replace(/(<\/?(h[1-6]|blockquote|ul|ol|div|hr)>)/g, '$1\n');
@@ -165,12 +179,14 @@ export function MarkdownRenderer({ content, className = "", enableTypewriter = f
 
   return (
     <div 
-      className={`prose prose-sm max-w-none dark:prose-invert leading-relaxed space-y-2 ${className}`}
+      className={`prose prose-sm max-w-none dark:prose-invert leading-relaxed space-y-3 ${className}`}
       style={{
         wordBreak: 'break-word',
         overflowWrap: 'break-word',
         maxWidth: '100%',
-        lineHeight: '1.7'
+        lineHeight: '1.8',
+        wordSpacing: '0.1em',
+        letterSpacing: '0.01em'
       }}
     >
       {renderContent()}
