@@ -1,4 +1,4 @@
-import { User, Bot, Copy, Check, RotateCcw } from "lucide-react";
+import { User, Bot, Copy, Check, RotateCcw, Volume2, VolumeX } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { MarkdownRenderer } from "@/components/MarkdownRenderer";
 import { useAuth } from "@/hooks/useAuth";
+import { useTextToSpeech } from "@/hooks/useTextToSpeech";
 
 
 interface Message {
@@ -26,6 +27,7 @@ export function ChatMessage({ message, className, onRegenerate }: ChatMessagePro
   const [copied, setCopied] = useState(false);
   const { toast } = useToast();
   const { user } = useAuth();
+  const { speak, stop, isPlaying, isLoading } = useTextToSpeech();
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(message.content);
@@ -42,6 +44,14 @@ export function ChatMessage({ message, className, onRegenerate }: ChatMessagePro
   const handleRegenerate = () => {
     if (onRegenerate) {
       onRegenerate();
+    }
+  };
+
+  const handleTextToSpeech = () => {
+    if (isPlaying) {
+      stop();
+    } else {
+      speak(message.content);
     }
   };
 
@@ -121,19 +131,38 @@ export function ChatMessage({ message, className, onRegenerate }: ChatMessagePro
           )}
         </div>
 
-        {/* Regenerate button for AI messages */}
-        {!isUser && onRegenerate && (
-          <div className="mt-2">
+        {/* Action buttons for AI messages */}
+        {!isUser && (
+          <div className="mt-2 flex gap-2">
             <Button
               variant="ghost"
               size="sm"
-              onClick={handleRegenerate}
+              onClick={handleTextToSpeech}
+              disabled={isLoading}
               className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground"
-              title="Regenerate response"
+              title={isPlaying ? "Stop audio" : "Play audio"}
             >
-              <RotateCcw className="h-3 w-3 mr-1" />
-              Regenerate
+              {isLoading ? (
+                <div className="h-3 w-3 mr-1 animate-spin rounded-full border border-current border-t-transparent" />
+              ) : isPlaying ? (
+                <VolumeX className="h-3 w-3 mr-1" />
+              ) : (
+                <Volume2 className="h-3 w-3 mr-1" />
+              )}
+              {isLoading ? "Loading..." : isPlaying ? "Stop" : "Listen"}
             </Button>
+            {onRegenerate && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleRegenerate}
+                className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground"
+                title="Regenerate response"
+              >
+                <RotateCcw className="h-3 w-3 mr-1" />
+                Regenerate
+              </Button>
+            )}
           </div>
         )}
       </div>
