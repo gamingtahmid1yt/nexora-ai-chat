@@ -124,21 +124,9 @@ export function MarkdownRenderer({ content, className = "", enableTypewriter = f
       return `<span class="text-blue-600 dark:text-blue-400 font-mono">&lt;${content}&gt;</span>`;
     });
     
-    // Better spacing and line breaks with proper word spacing
+    // Better spacing and line breaks
     processed = processed.replace(/\n\n+/g, '<br class="my-4">');
     processed = processed.replace(/\n/g, '<br class="my-1">');
-    
-    // Fix word spacing issues - ensure proper spacing between words
-    processed = processed.replace(/(\w)([A-Z])/g, '$1 $2'); // Add space before capital letters
-    processed = processed.replace(/([a-z])(\d)/g, '$1 $2'); // Add space between letters and numbers
-    processed = processed.replace(/(\d)([a-z])/g, '$1 $2'); // Add space between numbers and letters
-    
-    // Ensure proper spacing around punctuation
-    processed = processed.replace(/([.!?])\s*([A-Z])/g, '$1 $2');
-    processed = processed.replace(/(\w)\s*([.!?])/g, '$1$2');
-    
-    // Fix spacing around common words that get joined
-    processed = processed.replace(/([a-z])([A-Z][a-z])/g, '$1 $2');
     
     // Improve spacing around elements
     processed = processed.replace(/(<\/?(h[1-6]|blockquote|ul|ol|div|hr)>)/g, '$1\n');
@@ -207,15 +195,16 @@ export function MarkdownRenderer({ content, className = "", enableTypewriter = f
   return (
     <div 
       ref={containerRef}
-      className={`prose prose-sm max-w-none dark:prose-invert leading-relaxed space-y-3 ${className}`}
+      className={`prose prose-sm max-w-none dark:prose-invert leading-relaxed space-y-3 markdown-content ${className}`}
       style={{
         wordBreak: 'break-word',
         overflowWrap: 'break-word',
         maxWidth: '100%',
-        lineHeight: '1.8',
-        wordSpacing: '0.15em',
-        letterSpacing: '0.02em',
-        whiteSpace: 'pre-wrap'
+        lineHeight: '1.7',
+        wordSpacing: '0.1em',
+        letterSpacing: '0.01em',
+        whiteSpace: 'pre-wrap',
+        textAlign: 'left'
       }}
     >
       {renderContent()}

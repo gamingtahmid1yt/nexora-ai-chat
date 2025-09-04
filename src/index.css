@@ -306,7 +306,33 @@
       transparent
     );
     transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  }
+}
+
+/* Markdown content styling for better word spacing */
+.markdown-content {
+  word-spacing: 0.1em;
+}
+
+.markdown-content span,
+.markdown-content p,
+.markdown-content div {
+  word-spacing: inherit;
+}
+
+.markdown-content code,
+.markdown-content pre {
+  word-spacing: normal;
+}
+
+.markdown-content a {
+  word-spacing: inherit;
+}
+
+/* Fix word spacing issues in rendered markdown */
+.markdown-content strong,
+.markdown-content em {
+  word-spacing: inherit;
+}
   
   .nexora-button:hover::before {
     left: 100%;
