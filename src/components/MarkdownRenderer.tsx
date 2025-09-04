@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { CodeBlock } from './CodeBlock';
 
 interface MarkdownRendererProps {
@@ -8,6 +8,7 @@ interface MarkdownRendererProps {
 }
 
 export function MarkdownRenderer({ content, className = "", enableTypewriter = false }: MarkdownRendererProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const [processedData] = useState(() => {
     let processed = content;
     const codeBlocks: { id: string; code: string; language: string }[] = [];
@@ -172,13 +173,39 @@ export function MarkdownRenderer({ content, className = "", enableTypewriter = f
     }).filter(Boolean);
   };
 
-  // Add URLs processing after all other processing
+  // Handle link clicks to ensure they open in new tabs
   useEffect(() => {
-    console.log('MarkdownRenderer: Component rendered with content length:', content.length);
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleLinkClick = (e: Event) => {
+      const target = e.target as HTMLElement;
+      const link = target.closest('a');
+      
+      if (link && link.href) {
+        e.preventDefault();
+        window.open(link.href, '_blank', 'noopener,noreferrer');
+      }
+    };
+
+    // Add click listener to handle all links
+    container.addEventListener('click', handleLinkClick);
+    
+    // Ensure all links have proper attributes
+    const links = container.querySelectorAll('a');
+    links.forEach(link => {
+      link.setAttribute('target', '_blank');
+      link.setAttribute('rel', 'noopener noreferrer');
+    });
+
+    return () => {
+      container.removeEventListener('click', handleLinkClick);
+    };
   }, [content]);
 
   return (
     <div 
+      ref={containerRef}
       className={`prose prose-sm max-w-none dark:prose-invert leading-relaxed space-y-3 ${className}`}
       style={{
         wordBreak: 'break-word',
