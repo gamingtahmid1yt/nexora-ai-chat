@@ -102,7 +102,23 @@ export default {
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'fade-in': 'fadeInUp 0.4s ease-out',
+				'scale-in': 'scaleIn 0.3s ease-out',
+				'float': 'float 2s ease-in-out infinite',
+				'shimmer': 'shimmer 1.5s infinite',
+				'pulse-glow': 'pulseGlow 2s infinite',
+				'text-reveal': 'textReveal 0.3s ease-out',
+				'bounce-smooth': 'smoothBounce 1.4s infinite ease-in-out'
+			},
+			boxShadow: {
+				'nexora': '0 4px 16px hsl(var(--nexora-primary) / 0.15), 0 2px 8px hsl(var(--foreground) / 0.08)',
+				'nexora-lg': '0 12px 40px hsl(var(--nexora-primary) / 0.2), 0 4px 16px hsl(var(--foreground) / 0.12)',
+				'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.37), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+			},
+			backdropBlur: {
+				'xs': '2px',
+				'3xl': '64px'
 			}
 		}
 	},

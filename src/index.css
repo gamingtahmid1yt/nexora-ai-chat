@@ -322,6 +322,127 @@
   .nexora-button:active {
     transform: translateY(0) scale(1.02);
   }
+
+  /* Enhanced Input Focus States */
+  .enhanced-input {
+    position: relative;
+    border: 2px solid hsl(var(--border));
+    border-radius: calc(var(--radius) * 1.2);
+    background: hsl(var(--background));
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 
+      0 2px 8px hsl(var(--foreground) / 0.05),
+      inset 0 1px 0 hsl(var(--foreground) / 0.02);
+  }
+  
+  .enhanced-input:focus-within {
+    border-color: hsl(var(--nexora-primary));
+    box-shadow: 
+      0 4px 16px hsl(var(--nexora-primary) / 0.15),
+      0 0 0 4px hsl(var(--nexora-primary) / 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+  }
+
+  /* Enhanced Border Utilities */
+  .border-gradient {
+    position: relative;
+    background: hsl(var(--background));
+    border-radius: calc(var(--radius));
+  }
+  
+  .border-gradient::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    background: linear-gradient(135deg, 
+      hsl(var(--nexora-primary)), 
+      hsl(var(--nexora-secondary))
+    );
+    border-radius: inherit;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: xor;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+  }
+
+  /* Better Modal/Dialog Backdrop */
+  .modal-backdrop {
+    background: linear-gradient(135deg, 
+      rgba(0, 0, 0, 0.4), 
+      rgba(0, 0, 0, 0.6)
+    );
+    backdrop-filter: blur(12px) saturate(150%);
+  }
+
+  /* Enhanced Shadows */
+  .shadow-nexora {
+    box-shadow: 
+      0 4px 16px hsl(var(--nexora-primary) / 0.15),
+      0 2px 8px hsl(var(--foreground) / 0.08);
+  }
+  
+  .shadow-nexora-lg {
+    box-shadow: 
+      0 12px 40px hsl(var(--nexora-primary) / 0.2),
+      0 4px 16px hsl(var(--foreground) / 0.12);
+  }
+
+  /* Interactive Elements */
+  .interactive-element {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    border-radius: calc(var(--radius));
+  }
+  
+  .interactive-element:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 24px hsl(var(--foreground) / 0.12);
+  }
+  
+  .interactive-element:active {
+    transform: translateY(0) scale(1);
+  }
+
+  /* Better Focus Indicators */
+  .focus-visible {
+    outline: 2px solid hsl(var(--nexora-primary));
+    outline-offset: 2px;
+    border-radius: calc(var(--radius) / 2);
+  }
+
+  /* Enhanced Loading States */
+  .skeleton-pulse {
+    background: linear-gradient(90deg, 
+      hsl(var(--muted)) 0%, 
+      hsl(var(--muted-foreground) / 0.1) 50%, 
+      hsl(var(--muted)) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  /* Better Separators */
+  .separator-gradient {
+    height: 1px;
+    background: linear-gradient(90deg, 
+      transparent, 
+      hsl(var(--border)), 
+      transparent
+    );
+  }
+
+  /* Enhanced Tooltips */
+  .tooltip-content {
+    background: hsl(var(--popover));
+    border: 1px solid hsl(var(--border));
+    border-radius: calc(var(--radius) * 0.8);
+    box-shadow: 
+      0 8px 24px hsl(var(--foreground) / 0.15),
+      0 0 0 1px hsl(var(--nexora-primary) / 0.05);
+    backdrop-filter: blur(8px);
+  }
 }
 
 @keyframes messageSlideIn {
@@ -483,4 +604,67 @@
 
 .animate-float {
   animation: float 2s ease-in-out infinite;
+}
+
+/* Scale animation */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.3s ease-out;
+}
+
+/* Ripple effect */
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: currentColor;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.ripple:active::before {
+  width: 300px;
+  height: 300px;
+  opacity: 0.2;
+}
+
+/* Better focus ring */
+.focus-ring {
+  transition: all 0.2s ease;
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid hsl(var(--nexora-primary));
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px hsl(var(--nexora-primary) / 0.2);
 }
