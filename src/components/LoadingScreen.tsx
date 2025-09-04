@@ -13,12 +13,12 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(timer);
-          setTimeout(onComplete, 100);
+          setTimeout(onComplete, 50);
           return 100;
         }
-        return prev + 20;
+        return prev + 25; // Faster progress for better perceived performance
       });
-    }, 100);
+    }, 80); // Faster interval
 
     return () => clearInterval(timer);
   }, [onComplete]);
@@ -34,6 +34,7 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
             height={64}
             loading="eager"
             decoding="sync"
+            fetchPriority="high"
             className="w-16 h-16 rounded-full object-cover"
           />
         </div>

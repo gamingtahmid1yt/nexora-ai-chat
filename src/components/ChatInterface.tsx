@@ -89,15 +89,8 @@ export function ChatInterface() {
 
 
   useEffect(() => {
-    console.log('ChatInterface: Auto-scroll effect triggered', {
-      messageCount: currentSession?.messages?.length,
-      isLoading,
-      scrollAreaRef: !!scrollAreaRef.current
-    });
-    
     if (scrollAreaRef.current) {
       const scrollContainer = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
-      console.log('ChatInterface: Scroll container found:', !!scrollContainer);
       
       if (scrollContainer) {
         requestAnimationFrame(() => {
@@ -105,7 +98,6 @@ export function ChatInterface() {
             top: scrollContainer.scrollHeight,
             behavior: 'smooth'
           });
-          console.log('ChatInterface: Scrolled to bottom');
         });
       }
     }
