@@ -149,51 +149,78 @@ export function LoginPage({ onLogin, onSkip }: LoginPageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted flex items-center justify-center p-4 relative">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-accent/10 to-primary/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+      </div>
+
       {/* Skip Button */}
       {onSkip && (
         <Button
           variant="ghost"
           onClick={onSkip}
-          className="absolute top-4 right-4 z-10"
+          className="absolute top-6 right-6 z-10 bg-background/80 backdrop-blur-sm border"
         >
           <X className="h-4 w-4 mr-2" />
           Skip
         </Button>
       )}
       
-      <div className="w-full max-w-md space-y-8 animate-fade-in">
+      <div className="w-full max-w-md space-y-8 animate-fade-in relative z-10">
         {/* Logo and Title */}
-        <div className="text-center space-y-4">
-          <div className="w-20 h-20 mx-auto rounded-full bg-white p-2 shadow-lg">
-            <img src="https://tahmid1dev.github.io/nexora-ai-logo/NexoraAILogo.jpg" alt="Nexora AI" className="w-full h-full object-contain rounded-full" />
+        <div className="text-center space-y-6">
+          <div className="relative">
+            <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-primary to-secondary p-1 shadow-xl">
+              <div className="w-full h-full rounded-full bg-background p-3">
+                <MessageSquare className="w-full h-full text-primary" />
+              </div>
+            </div>
+            <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-full blur-lg animate-pulse"></div>
           </div>
-          <div className="space-y-2">
-            <h1 className="text-4xl font-bold gradient-text">Nexora AI</h1>
-            <p className="text-muted-foreground">Your intelligent AI assistant</p>
+          <div className="space-y-3">
+            <h1 className="text-5xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+              Nexora AI
+            </h1>
+            <p className="text-lg text-muted-foreground font-medium">Your intelligent AI companion</p>
+            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+              <span>Advanced AI • Secure • Private</span>
+            </div>
           </div>
         </div>
 
         {/* Login Card */}
-        <Card className="border-border shadow-lg">
-          <CardHeader className="text-center space-y-2">
-            <CardTitle className="text-xl">Welcome Back</CardTitle>
-            <p className="text-sm text-muted-foreground">
-              Sign in to access your personalized AI experience
+        <Card className="border-border/50 shadow-2xl bg-background/80 backdrop-blur-sm">
+          <CardHeader className="text-center space-y-3 pb-6">
+            <CardTitle className="text-2xl font-semibold">Welcome to Nexora</CardTitle>
+            <p className="text-muted-foreground">
+              Sign in to unlock personalized AI conversations and save your chat history
             </p>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <p className="text-sm text-center mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
-              <span className="text-red-600 dark:text-red-400 font-semibold">
-                Google login/sign up is optional, you can skip and continue to chat
-              </span>
-            </p>
+          <CardContent className="space-y-6">
+            <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+              <div className="flex items-start gap-3">
+                <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span className="text-white text-sm">ℹ</span>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-sm font-medium text-blue-900 dark:text-blue-100">
+                    Authentication is Optional
+                  </p>
+                  <p className="text-xs text-blue-700 dark:text-blue-300">
+                    You can start chatting right away or sign in to save your conversations and get personalized responses.
+                  </p>
+                </div>
+              </div>
+            </div>
             
-            <div className="space-y-3">
+            <div className="space-y-4">
               <Button
                 onClick={handleGoogleLogin}
                 disabled={isLoading || !firebaseLoaded}
-                className="w-full bg-white hover:bg-gray-50 text-gray-900 border border-gray-300 shadow-sm"
+                className="w-full h-12 bg-white hover:bg-gray-50 text-gray-900 border border-gray-300 shadow-sm transition-all duration-200 hover:shadow-md"
                 size="lg"
               >
                 <svg className="h-5 w-5 mr-3" viewBox="0 0 24 24">
@@ -202,50 +229,57 @@ export function LoginPage({ onLogin, onSkip }: LoginPageProps) {
                   <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                   <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                 </svg>
-                {isLoading ? "Signing in..." : "Continue with Google"}
+                <span className="font-medium">
+                  {isLoading ? "Connecting..." : "Continue with Google"}
+                </span>
               </Button>
 
               {onSkip && (
                 <Button
                   onClick={onSkip}
                   variant="outline"
-                  className="w-full"
+                  className="w-full h-12 border-2 border-dashed border-muted-foreground/30 hover:border-primary hover:bg-primary/5 transition-all duration-200"
                   size="lg"
                 >
-                  Maybe Later
+                  <MessageSquare className="h-4 w-4 mr-2" />
+                  Start Chatting Without Account
                 </Button>
               )}
             </div>
             
-            <div className="text-center space-y-2">
-              <p className="text-xs text-muted-foreground">
-                By signing in, you agree to our terms of service
-              </p>
-              <div className="flex items-center gap-2 justify-center text-xs text-muted-foreground">
-                <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                <span>Secure authentication via Google</span>
+            <div className="text-center space-y-3">
+              <div className="grid grid-cols-3 gap-4 py-4 border-t border-border/50">
+                <div className="text-center space-y-1">
+                  <div className="text-lg">🔒</div>
+                  <p className="text-xs text-muted-foreground">Secure</p>
+                </div>
+                <div className="text-center space-y-1">
+                  <div className="text-lg">⚡</div>
+                  <p className="text-xs text-muted-foreground">Fast</p>
+                </div>
+                <div className="text-center space-y-1">
+                  <div className="text-lg">🧠</div>
+                  <p className="text-xs text-muted-foreground">Smart</p>
+                </div>
               </div>
+              <p className="text-xs text-muted-foreground">
+                By signing in, you agree to our terms of service and privacy policy
+              </p>
             </div>
           </CardContent>
         </Card>
 
-        {/* Features */}
-        <div className="grid grid-cols-2 gap-4 text-center">
-          <div className="space-y-2">
-            <div className="text-2xl">🧠</div>
-            <p className="text-xs text-muted-foreground">Advanced AI</p>
+        {/* Benefits Section */}
+        <div className="grid grid-cols-2 gap-4">
+          <div className="text-center p-4 rounded-lg bg-gradient-to-br from-primary/5 to-secondary/5 border border-primary/10">
+            <div className="text-2xl mb-2">💬</div>
+            <p className="text-sm font-medium text-foreground">Smart Conversations</p>
+            <p className="text-xs text-muted-foreground mt-1">Advanced AI responses</p>
           </div>
-          <div className="space-y-2">
-            <div className="text-2xl">💬</div>
-            <p className="text-xs text-muted-foreground">Smart Conversations</p>
-          </div>
-          <div className="space-y-2">
-            <div className="text-2xl">🔒</div>
-            <p className="text-xs text-muted-foreground">Privacy Focused</p>
-          </div>
-          <div className="space-y-2">
-            <div className="text-2xl">⚡</div>
-            <p className="text-xs text-muted-foreground">Lightning Fast</p>
+          <div className="text-center p-4 rounded-lg bg-gradient-to-br from-secondary/5 to-accent/5 border border-secondary/10">
+            <div className="text-2xl mb-2">📱</div>
+            <p className="text-sm font-medium text-foreground">Cross-Device Sync</p>
+            <p className="text-xs text-muted-foreground mt-1">Access anywhere</p>
           </div>
         </div>
       </div>

@@ -176,22 +176,23 @@ export function MarkdownRenderer({ content, className = "", enableTypewriter = f
       
       if (link && link.href) {
         e.preventDefault();
-        window.open(link.href, '_blank', 'noopener,noreferrer');
+        e.stopPropagation();
+        
+        // For external links, open in new tab
+        if (link.href.startsWith('http://') || link.href.startsWith('https://')) {
+          window.open(link.href, '_blank', 'noopener,noreferrer');
+        } else {
+          // For internal links, navigate normally
+          window.location.href = link.href;
+        }
       }
     };
 
-    // Add click listener to handle all links
-    container.addEventListener('click', handleLinkClick);
-    
-    // Ensure all links have proper attributes
-    const links = container.querySelectorAll('a');
-    links.forEach(link => {
-      link.setAttribute('target', '_blank');
-      link.setAttribute('rel', 'noopener noreferrer');
-    });
+    // Add click listener with capture to handle all clicks first
+    container.addEventListener('click', handleLinkClick, true);
 
     return () => {
-      container.removeEventListener('click', handleLinkClick);
+      container.removeEventListener('click', handleLinkClick, true);
     };
   }, [content]);
 
