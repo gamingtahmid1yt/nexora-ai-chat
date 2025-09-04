@@ -1,26 +1,20 @@
-import { useState, useEffect, lazy, Suspense } from "react";
+import { useState, useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LoadingScreen } from "@/components/LoadingScreen";
+import { LoginPage } from "@/components/LoginPage";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { useAuth } from "@/hooks/useAuth";
+import Index from "./pages/Index";
+import NotFound from "./pages/NotFound";
 
-// Lazy load components for better performance
-const Index = lazy(() => import("./pages/Index"));
-const NotFound = lazy(() => import("./pages/NotFound"));
-const LoginPage = lazy(() => import("@/components/LoginPage").then(module => ({ default: module.LoginPage })));
+// Enhanced error logging
+console.log('App.tsx: Loading application components');
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 5 * 60 * 1000, // 5 minutes
-      gcTime: 10 * 60 * 1000, // 10 minutes (new name for cacheTime)
-    },
-  },
-});
+const queryClient = new QueryClient();
 
 function AppContent() {
   const [showLoading, setShowLoading] = useState(true);
@@ -28,46 +22,68 @@ function AppContent() {
   const { isAuthenticated, isLoading: authLoading } = useAuth();
 
   useEffect(() => {
-    // Reduced loading time for better perceived performance
+    console.log('AppContent: Initializing with auth state:', { isAuthenticated, authLoading });
+    
+    // Show loading screen for 500ms
     const timer = setTimeout(() => {
+      console.log('AppContent: Loading timer complete, hiding loading screen');
       setShowLoading(false);
-    }, 300);
+    }, 500);
 
-    return () => clearTimeout(timer);
+    return () => {
+      console.log('AppContent: Cleaning up loading timer');
+      clearTimeout(timer);
+    };
   }, []);
 
+  useEffect(() => {
+    console.log('AppContent: Auth state changed:', { isAuthenticated, authLoading });
+  }, [isAuthenticated, authLoading]);
+
   if (showLoading) {
-    return <LoadingScreen onComplete={() => setShowLoading(false)} />;
+    console.log('AppContent: Showing loading screen');
+    return <LoadingScreen onComplete={() => {
+      console.log('AppContent: Loading screen complete callback');
+      setShowLoading(false);
+    }} />;
   }
 
   if (authLoading) {
-    return <LoadingScreen onComplete={() => {}} />;
+    console.log('AppContent: Showing auth loading screen');
+    return <LoadingScreen onComplete={() => {
+      console.log('AppContent: Auth loading complete callback');
+    }} />;
   }
 
   if (!isAuthenticated && showLogin) {
-    return (
-      <Suspense fallback={<LoadingScreen onComplete={() => {}} />}>
-        <LoginPage 
-          onLogin={() => {}} 
-          onSkip={() => setShowLogin(false)} 
-        />
-      </Suspense>
-    );
+    console.log('AppContent: Showing login page');
+    return <LoginPage 
+      onLogin={() => {
+        console.log('AppContent: Login successful');
+      }} 
+      onSkip={() => {
+        console.log('AppContent: Login skipped');
+        setShowLogin(false);
+      }} 
+    />;
   }
+
+  console.log('AppContent: Rendering main application');
 
   return (
     <BrowserRouter>
-      <Suspense fallback={<LoadingScreen onComplete={() => {}} />}>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Suspense>
+      <Routes>
+        <Route path="/" element={<Index />} />
+        {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </BrowserRouter>
   );
 }
 
 const App = () => {
+  console.log('App: Rendering root component');
+  
   return (
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
