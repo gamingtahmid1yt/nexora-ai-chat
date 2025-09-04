@@ -128,9 +128,17 @@ export function MarkdownRenderer({ content, className = "", enableTypewriter = f
     processed = processed.replace(/\n\n+/g, '<br class="my-4">');
     processed = processed.replace(/\n/g, '<br class="my-1">');
     
-    // Ensure proper spacing between words and sentences
-    processed = processed.replace(/([.!?])\s+([A-Z])/g, '$1 <span class="inline-block w-1"></span>$2');
-    processed = processed.replace(/(\w)\s+(\w)/g, '$1 $2');
+    // Fix word spacing issues - ensure proper spacing between words
+    processed = processed.replace(/(\w)([A-Z])/g, '$1 $2'); // Add space before capital letters
+    processed = processed.replace(/([a-z])(\d)/g, '$1 $2'); // Add space between letters and numbers
+    processed = processed.replace(/(\d)([a-z])/g, '$1 $2'); // Add space between numbers and letters
+    
+    // Ensure proper spacing around punctuation
+    processed = processed.replace(/([.!?])\s*([A-Z])/g, '$1 $2');
+    processed = processed.replace(/(\w)\s*([.!?])/g, '$1$2');
+    
+    // Fix spacing around common words that get joined
+    processed = processed.replace(/([a-z])([A-Z][a-z])/g, '$1 $2');
     
     // Improve spacing around elements
     processed = processed.replace(/(<\/?(h[1-6]|blockquote|ul|ol|div|hr)>)/g, '$1\n');
@@ -205,8 +213,9 @@ export function MarkdownRenderer({ content, className = "", enableTypewriter = f
         overflowWrap: 'break-word',
         maxWidth: '100%',
         lineHeight: '1.8',
-        wordSpacing: '0.1em',
-        letterSpacing: '0.01em'
+        wordSpacing: '0.15em',
+        letterSpacing: '0.02em',
+        whiteSpace: 'pre-wrap'
       }}
     >
       {renderContent()}

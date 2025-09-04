@@ -60,6 +60,7 @@ function AppContent() {
     return <LoginPage 
       onLogin={() => {
         console.log('AppContent: Login successful');
+        setShowLogin(false);
       }} 
       onSkip={() => {
         console.log('AppContent: Login skipped');
