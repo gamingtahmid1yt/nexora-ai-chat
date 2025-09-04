@@ -4,57 +4,54 @@ import { useToast } from '@/hooks/use-toast';
 export function useTextToSpeech() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const speechRef = useRef<SpeechSynthesisUtterance | null>(null);
   const { toast } = useToast();
 
   const speak = async (text: string) => {
     try {
       setIsLoading(true);
-      
-      // Stop any currently playing audio
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
+
+      // Check if speech synthesis is supported
+      if (!('speechSynthesis' in window)) {
+        throw new Error('Speech synthesis not supported');
+      }
+
+      // Stop any currently playing speech
+      if (speechRef.current) {
+        speechSynthesis.cancel();
         setIsPlaying(false);
       }
 
-      const response = await fetch('https://api.elevenlabs.io/v1/text-to-speech/9BWtsMINqrJLrRacOk9x', {
-        method: 'POST',
-        headers: {
-          'Accept': 'audio/mpeg',
-          'Content-Type': 'application/json',
-          'xi-api-key': process.env.ELEVENLABS_API_KEY || '',
-        },
-        body: JSON.stringify({
-          text: text,
-          model_id: 'eleven_v3',
-          voice_settings: {
-            stability: 0.5,
-            similarity_boost: 0.5,
-          },
-        }),
-      });
+      const utterance = new SpeechSynthesisUtterance(text);
+      speechRef.current = utterance;
 
-      if (!response.ok) {
-        throw new Error('Failed to generate speech');
+      // Configure voice settings
+      utterance.rate = 1;
+      utterance.pitch = 1;
+      utterance.volume = 1;
+
+      // Try to use a Google voice if available
+      const voices = speechSynthesis.getVoices();
+      const googleVoice = voices.find(voice => 
+        voice.name.includes('Google') || voice.name.includes('Chrome')
+      );
+      if (googleVoice) {
+        utterance.voice = googleVoice;
       }
 
-      const audioBlob = await response.blob();
-      const audioUrl = URL.createObjectURL(audioBlob);
-      
-      const audio = new Audio(audioUrl);
-      audioRef.current = audio;
-      
-      audio.onplay = () => setIsPlaying(true);
-      audio.onended = () => {
-        setIsPlaying(false);
-        URL.revokeObjectURL(audioUrl);
-        audioRef.current = null;
+      utterance.onstart = () => {
+        setIsPlaying(true);
+        setIsLoading(false);
       };
-      audio.onerror = () => {
+
+      utterance.onend = () => {
         setIsPlaying(false);
-        URL.revokeObjectURL(audioUrl);
-        audioRef.current = null;
+        speechRef.current = null;
+      };
+
+      utterance.onerror = (event) => {
+        setIsPlaying(false);
+        speechRef.current = null;
         toast({
           title: "Error",
           description: "Failed to play audio",
@@ -62,24 +59,23 @@ export function useTextToSpeech() {
         });
       };
 
-      await audio.play();
+      speechSynthesis.speak(utterance);
     } catch (error) {
       console.error('Text-to-speech error:', error);
       toast({
         title: "Error", 
-        description: "Failed to convert text to speech. Please check your ElevenLabs API key.",
+        description: "Text-to-speech is not supported in your browser.",
         variant: "destructive",
       });
-    } finally {
       setIsLoading(false);
     }
   };
 
   const stop = () => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current = null;
+    if (speechRef.current) {
+      speechSynthesis.cancel();
       setIsPlaying(false);
+      speechRef.current = null;
     }
   };
 
