@@ -88,28 +88,7 @@ export function ChatInterface() {
   };
 
 
-  useEffect(() => {
-    console.log('ChatInterface: Auto-scroll effect triggered', {
-      messageCount: currentSession?.messages?.length,
-      isLoading,
-      scrollAreaRef: !!scrollAreaRef.current
-    });
-    
-    if (scrollAreaRef.current) {
-      const scrollContainer = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
-      console.log('ChatInterface: Scroll container found:', !!scrollContainer);
-      
-      if (scrollContainer) {
-        requestAnimationFrame(() => {
-          scrollContainer.scrollTo({
-            top: scrollContainer.scrollHeight,
-            behavior: 'smooth'
-          });
-          console.log('ChatInterface: Scrolled to bottom');
-        });
-      }
-    }
-  }, [currentSession?.messages, isLoading]);
+  // Auto-scroll functionality removed per user request
 
   return (
     <div className="flex flex-col h-screen">
