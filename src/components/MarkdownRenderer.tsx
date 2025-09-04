@@ -108,18 +108,10 @@ export function MarkdownRenderer({ content, className = "", enableTypewriter = f
     processed = processed.replace(/=>/g, '<span class="text-primary font-mono">⇒</span>');
     processed = processed.replace(/<=/g, '<span class="text-primary font-mono">⇐</span>');
     
-    // Enhanced URLs with better styling and preview
+    // Simple URLs with clean styling - avoid complex HTML that breaks rendering
     processed = processed.replace(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g, (match) => {
       const domain = match.replace(/https?:\/\/(www\.)?/, '').split('/')[0];
-      return `<a href="${match}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3 py-2 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-all duration-200 no-underline group">
-        <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-        </svg>
-        <span class="font-medium">${domain}</span>
-        <svg class="w-3 h-3 opacity-50 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-        </svg>
-      </a>`;
+      return `<a href="${match}" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline font-medium transition-colors duration-200">${domain} ↗</a>`;
     });
     
     // Email addresses
