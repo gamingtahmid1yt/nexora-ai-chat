@@ -12,7 +12,7 @@ export function TypingIndicator() {
 
       <div className="flex-1 space-y-2">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-medium">Nexora AI</span>
+          <span className="text-sm font-medium">Qwell AI</span>
           <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
         </div>
 
@@ -25,7 +25,7 @@ export function TypingIndicator() {
             </div>
             <div className="flex flex-col">
               <span className="text-sm text-muted-foreground typing-animation">
-                <span className="inline-block animate-pulse">Nexora is thinking</span>
+                <span className="inline-block animate-pulse">Qwell is thinking</span>
                 <span className="typing-dots">
                   <span className="animate-[ping_1s_ease-in-out_infinite]">.</span>
                   <span className="animate-[ping_1s_ease-in-out_0.2s_infinite]">.</span>

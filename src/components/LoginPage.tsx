@@ -52,25 +52,25 @@ export function LoginPage({ onLogin, onSkip }: LoginPageProps) {
         signInWithPopup(auth, provider)
           .then((result) => {
             const user = result.user;
-            localStorage.setItem('nexora_user', JSON.stringify({
+            localStorage.setItem('qwell_user', JSON.stringify({
               uid: user.uid,
               displayName: user.displayName,
               email: user.email,
               photoURL: user.photoURL
             }));
-            window.dispatchEvent(new CustomEvent('nexora_login_success'));
+            window.dispatchEvent(new CustomEvent('qwell_login_success'));
           })
           .catch((error) => {
             console.error(error);
-            window.dispatchEvent(new CustomEvent('nexora_login_error', { detail: error.message }));
+            window.dispatchEvent(new CustomEvent('qwell_login_error', { detail: error.message }));
           });
       };
 
       // Logout function
       window.googleLogout = function() {
         signOut(auth).then(() => {
-          localStorage.removeItem('nexora_user');
-          window.dispatchEvent(new CustomEvent('nexora_logout_success'));
+          localStorage.removeItem('qwell_user');
+          window.dispatchEvent(new CustomEvent('qwell_logout_success'));
         }).catch((error) => {
           console.error(error);
         });
@@ -79,20 +79,20 @@ export function LoginPage({ onLogin, onSkip }: LoginPageProps) {
       // Auto-detect login status
       onAuthStateChanged(auth, (user) => {
         if (user) {
-          localStorage.setItem('nexora_user', JSON.stringify({
+          localStorage.setItem('qwell_user', JSON.stringify({
             uid: user.uid,
             displayName: user.displayName,
             email: user.email,
             photoURL: user.photoURL
           }));
-          window.dispatchEvent(new CustomEvent('nexora_auth_ready', { detail: { loggedIn: true } }));
+          window.dispatchEvent(new CustomEvent('qwell_auth_ready', { detail: { loggedIn: true } }));
         } else {
-          localStorage.removeItem('nexora_user');
-          window.dispatchEvent(new CustomEvent('nexora_auth_ready', { detail: { loggedIn: false } }));
+          localStorage.removeItem('qwell_user');
+          window.dispatchEvent(new CustomEvent('qwell_auth_ready', { detail: { loggedIn: false } }));
         }
       });
 
-      window.dispatchEvent(new CustomEvent('nexora_firebase_loaded'));
+      window.dispatchEvent(new CustomEvent('qwell_firebase_loaded'));
     `;
     
     document.head.appendChild(script);
@@ -103,7 +103,7 @@ export function LoginPage({ onLogin, onSkip }: LoginPageProps) {
       setIsLoading(false);
       toast({
         title: "Login Successful",
-        description: "Welcome to Nexora AI!",
+        description: "Welcome to Qwell AI!",
       });
       onLogin();
     };
@@ -121,16 +121,16 @@ export function LoginPage({ onLogin, onSkip }: LoginPageProps) {
       }
     };
 
-    window.addEventListener('nexora_firebase_loaded', handleFirebaseLoaded);
-    window.addEventListener('nexora_login_success', handleLoginSuccess);
-    window.addEventListener('nexora_login_error', handleLoginError);
-    window.addEventListener('nexora_auth_ready', handleAuthReady);
+    window.addEventListener('qwell_firebase_loaded', handleFirebaseLoaded);
+    window.addEventListener('qwell_login_success', handleLoginSuccess);
+    window.addEventListener('qwell_login_error', handleLoginError);
+    window.addEventListener('qwell_auth_ready', handleAuthReady);
 
     return () => {
-      window.removeEventListener('nexora_firebase_loaded', handleFirebaseLoaded);
-      window.removeEventListener('nexora_login_success', handleLoginSuccess);
-      window.removeEventListener('nexora_login_error', handleLoginError);
-      window.removeEventListener('nexora_auth_ready', handleAuthReady);
+      window.removeEventListener('qwell_firebase_loaded', handleFirebaseLoaded);
+      window.removeEventListener('qwell_login_success', handleLoginSuccess);
+      window.removeEventListener('qwell_login_error', handleLoginError);
+      window.removeEventListener('qwell_auth_ready', handleAuthReady);
       document.head.removeChild(script);
     };
   }, [onLogin, toast]);

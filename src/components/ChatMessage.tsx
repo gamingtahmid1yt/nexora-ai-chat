@@ -61,7 +61,7 @@ export function ChatMessage({ message, className, onRegenerate }: ChatMessagePro
         {isUser && user?.photoURL ? (
           <AvatarImage src={user.photoURL} alt="User avatar" />
         ) : !isUser ? (
-          <AvatarImage src="https://tahmid1dev.github.io/nexora-ai-logo/NexoraAILogo.jpg" alt="Nexora AI" />
+          <AvatarImage src="https://tahmid1dev.github.io/nexora-ai-logo/NexoraAILogo.jpg" alt="Qwell AI" />
         ) : null}
         <AvatarFallback className={cn(
           "text-sm font-medium",
@@ -76,7 +76,7 @@ export function ChatMessage({ message, className, onRegenerate }: ChatMessagePro
       <div className="flex-1 space-y-2 group">
         <div className="flex items-center gap-2">
           <span className="text-sm font-medium">
-            {isUser ? "You" : "Nexora AI"}
+            {isUser ? "You" : "Qwell AI"}
           </span>
           <span className="text-xs text-muted-foreground">
             {message.timestamp.toLocaleTimeString([], { 

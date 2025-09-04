@@ -11,7 +11,7 @@ export function ChatLayout() {
   const { isDark } = useTheme();
 
   useEffect(() => {
-    // Set dark theme as default for Nexora
+    // Set dark theme as default for Qwell
     if (isDark === null) {
       document.documentElement.classList.add('dark');
     }
@@ -32,7 +32,7 @@ export function ChatLayout() {
                   <div className="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-white p-1 flex items-center justify-center">
                     <img 
                       src="https://tahmid1dev.github.io/nexora-ai-logo/NexoraAILogo.jpg" 
-                      alt="Nexora AI" 
+                      alt="Qwell AI" 
                       width={32}
                       height={32}
                       loading="eager"
@@ -40,7 +40,7 @@ export function ChatLayout() {
                       className="w-full h-full object-contain rounded"
                     />
                   </div>
-                  <h1 className="text-lg md:text-xl font-bold gradient-text">Nexora AI</h1>
+                  <h1 className="text-lg md:text-xl font-bold gradient-text">Qwell AI</h1>
                 </div>
               </div>
               

@@ -18,7 +18,7 @@ export function useAuth() {
     const checkAuth = () => {
       console.log('useAuth: Checking localStorage for existing user');
       try {
-        const storedUser = localStorage.getItem('nexora_user');
+        const storedUser = localStorage.getItem('qwell_user');
         if (storedUser) {
           console.log('useAuth: Found stored user data');
           setUser(JSON.parse(storedUser));
@@ -27,7 +27,7 @@ export function useAuth() {
         }
       } catch (error) {
         console.error('useAuth: Error parsing user data:', error);
-        localStorage.removeItem('nexora_user');
+        localStorage.removeItem('qwell_user');
       }
       console.log('useAuth: Setting loading to false');
       setIsLoading(false);
@@ -38,7 +38,7 @@ export function useAuth() {
     // Listen for auth state changes
     const handleStorageChange = (e: StorageEvent) => {
       console.log('useAuth: Storage change event:', e.key);
-      if (e.key === 'nexora_user') {
+      if (e.key === 'qwell_user') {
         if (e.newValue) {
           try {
             console.log('useAuth: New user data from storage');
@@ -56,7 +56,7 @@ export function useAuth() {
 
     const handleAuthSuccess = () => {
       console.log('useAuth: Auth success event received');
-      const storedUser = localStorage.getItem('nexora_user');
+      const storedUser = localStorage.getItem('qwell_user');
       if (storedUser) {
         try {
           setUser(JSON.parse(storedUser));
@@ -73,13 +73,13 @@ export function useAuth() {
     };
 
     window.addEventListener('storage', handleStorageChange);
-    window.addEventListener('nexora_login_success', handleAuthSuccess);
-    window.addEventListener('nexora_logout_success', handleLogout);
+    window.addEventListener('qwell_login_success', handleAuthSuccess);
+    window.addEventListener('qwell_logout_success', handleLogout);
 
     return () => {
       window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('nexora_login_success', handleAuthSuccess);
-      window.removeEventListener('nexora_logout_success', handleLogout);
+      window.removeEventListener('qwell_login_success', handleAuthSuccess);
+      window.removeEventListener('qwell_logout_success', handleLogout);
     };
   }, []);
 
@@ -90,7 +90,7 @@ export function useAuth() {
       window.googleLogout();
     } else {
       console.log('useAuth: Manual logout, removing from localStorage');
-      localStorage.removeItem('nexora_user');
+      localStorage.removeItem('qwell_user');
       setUser(null);
     }
   };

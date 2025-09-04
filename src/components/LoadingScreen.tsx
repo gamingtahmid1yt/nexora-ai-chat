@@ -50,7 +50,7 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
             <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/10 to-secondary/10 animate-[spin_3s_linear_infinite]"></div>
             <img 
               src="https://tahmid1dev.github.io/nexora-ai-logo/NexoraAILogo.jpg" 
-              alt="Nexora AI" 
+              alt="Qwell AI" 
               width={64}
               height={64}
               loading="eager"
@@ -68,7 +68,7 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
 
         {/* Enhanced Text Section */}
         <div className="space-y-3">
-          <h1 className="text-3xl font-bold gradient-text tracking-tight">Nexora AI</h1>
+          <h1 className="text-3xl font-bold gradient-text tracking-tight">Qwell AI</h1>
           <p className="text-muted-foreground text-lg font-medium animate-pulse">
             {loadingText}
           </p>
