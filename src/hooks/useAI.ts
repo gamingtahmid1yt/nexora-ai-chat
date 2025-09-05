@@ -29,7 +29,7 @@ Response Style:
 - Use examples and code snippets when helpful
 - Maintain conversational context from previous messages
 - Adapt complexity to user needs
-- Show reasoning for complex problems
+- Show reasoning for complex problems, Reasoning: high
 - Be concise yet thorough
 
 Guidelines:
@@ -108,6 +108,7 @@ export function useAI() {
         temperature: 0.8,
         top_p: 1.0,
         max_tokens: 3500,
+        stream: true,
         messages: [
           { role: 'system', content: SYSTEM_PROMPT },
           ...lastMessages,
