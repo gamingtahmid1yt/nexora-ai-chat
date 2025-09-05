@@ -35,6 +35,16 @@ export function ChatInterface() {
       timestamp: new Date(),
     });
 
+    // Auto scroll to bottom when user sends message
+    setTimeout(() => {
+      if (scrollAreaRef.current) {
+        const viewport = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
+        if (viewport) {
+          viewport.scrollTop = viewport.scrollHeight;
+        }
+      }
+    }, 100);
+
     // Send to AI
     await sendMessage(userMessage);
   };
@@ -88,7 +98,19 @@ export function ChatInterface() {
   };
 
 
-  // Auto-scroll functionality removed per user request
+  // Auto-scroll to bottom on initial load and refresh
+  useEffect(() => {
+    if (currentSession?.messages.length > 0) {
+      setTimeout(() => {
+        if (scrollAreaRef.current) {
+          const viewport = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
+          if (viewport) {
+            viewport.scrollTop = viewport.scrollHeight;
+          }
+        }
+      }, 100);
+    }
+  }, [currentSession?.id]); // Only trigger when session changes (including initial load)
 
   return (
     <div className="flex flex-col h-screen">

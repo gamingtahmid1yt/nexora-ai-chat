@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Copy, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 interface CodeBlockProps {
   code: string;
@@ -52,9 +54,24 @@ export function CodeBlock({ code, language = 'text' }: CodeBlockProps) {
         </Button>
       </div>
       <div className="relative">
-        <pre className="p-4 overflow-x-auto text-sm leading-relaxed bg-gradient-to-br from-background/40 to-muted/20">
-          <code className="font-mono text-foreground">{code}</code>
-        </pre>
+        <SyntaxHighlighter
+          language={language}
+          style={oneDark}
+          customStyle={{
+            margin: 0,
+            padding: '1rem',
+            background: 'transparent',
+            fontSize: '0.875rem',
+            lineHeight: '1.5',
+          }}
+          codeTagProps={{
+            style: {
+              fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+            }
+          }}
+        >
+          {code}
+        </SyntaxHighlighter>
         <div className="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-primary/5 pointer-events-none"></div>
       </div>
     </div>
