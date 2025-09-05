@@ -1,4 +1,4 @@
-import { User, Bot, Copy, Check, RotateCcw, Volume2, VolumeX } from "lucide-react";
+import { User, Bot, Copy, Check, RotateCcw, Volume2, VolumeX, FileText } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -7,6 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { MarkdownRenderer } from "@/components/MarkdownRenderer";
 import { useAuth } from "@/hooks/useAuth";
 import { useTextToSpeech } from "@/hooks/useTextToSpeech";
+import { TextSelectionModal } from "@/components/TextSelectionModal";
 
 
 interface Message {
@@ -28,6 +29,7 @@ export function ChatMessage({ message, className, onRegenerate }: ChatMessagePro
   const { toast } = useToast();
   const { user } = useAuth();
   const { speak, stop, isPlaying, isLoading } = useTextToSpeech();
+  const [showTextModal, setShowTextModal] = useState(false);
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(message.content);
@@ -53,6 +55,10 @@ export function ChatMessage({ message, className, onRegenerate }: ChatMessagePro
     } else {
       speak(message.content);
     }
+  };
+
+  const handleSelectText = () => {
+    setShowTextModal(true);
   };
 
   return (
@@ -131,41 +137,60 @@ export function ChatMessage({ message, className, onRegenerate }: ChatMessagePro
           )}
         </div>
 
-        {/* Action buttons for AI messages */}
-        {!isUser && (
-          <div className="mt-2 flex gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleTextToSpeech}
-              disabled={isLoading}
-              className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground"
-              title={isPlaying ? "Stop audio" : "Play audio"}
-            >
-              {isLoading ? (
-                <div className="h-3 w-3 mr-1 animate-spin rounded-full border border-current border-t-transparent" />
-              ) : isPlaying ? (
-                <VolumeX className="h-3 w-3 mr-1" />
-              ) : (
-                <Volume2 className="h-3 w-3 mr-1" />
-              )}
-              {isLoading ? "Loading..." : isPlaying ? "Stop" : "Listen"}
-            </Button>
-            {onRegenerate && (
+        {/* Action buttons */}
+        <div className="mt-2 flex gap-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleSelectText}
+            className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground"
+            title="Select text"
+          >
+            <FileText className="h-3 w-3 mr-1" />
+            Select Text
+          </Button>
+          {!isUser && (
+            <>
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={handleRegenerate}
+                onClick={handleTextToSpeech}
+                disabled={isLoading}
                 className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground"
-                title="Regenerate response"
+                title={isPlaying ? "Stop audio" : "Play audio"}
               >
-                <RotateCcw className="h-3 w-3 mr-1" />
-                Regenerate
+                {isLoading ? (
+                  <div className="h-3 w-3 mr-1 animate-spin rounded-full border border-current border-t-transparent" />
+                ) : isPlaying ? (
+                  <VolumeX className="h-3 w-3 mr-1" />
+                ) : (
+                  <Volume2 className="h-3 w-3 mr-1" />
+                )}
+                {isLoading ? "Loading..." : isPlaying ? "Stop" : "Listen"}
               </Button>
-            )}
-          </div>
-        )}
+              {onRegenerate && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleRegenerate}
+                  className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground"
+                  title="Regenerate response"
+                >
+                  <RotateCcw className="h-3 w-3 mr-1" />
+                  Regenerate
+                </Button>
+              )}
+            </>
+          )}
+        </div>
       </div>
+
+      <TextSelectionModal
+        isOpen={showTextModal}
+        onClose={() => setShowTextModal(false)}
+        text={message.content}
+        title={isUser ? "Your Message" : "AI Message"}
+      />
     </div>
   );
 }
