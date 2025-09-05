@@ -27,7 +27,7 @@ export function CodeBlock({ code, language = 'text' }: CodeBlockProps) {
   };
 
   return (
-    <div className="relative group my-4 rounded-lg overflow-hidden border border-border/50 bg-gradient-to-br from-card/80 to-muted/30 backdrop-blur-sm">
+    <div className="relative group my-4 rounded-lg overflow-hidden border border-border/50 bg-gradient-to-br from-card/80 to-muted/30 backdrop-blur-sm max-w-full">
       <div className="flex items-center justify-between bg-gradient-to-r from-muted/80 to-muted/50 px-4 py-3 border-b border-border/30">
         <div className="flex items-center gap-2">
           <div className="flex gap-1">
@@ -53,7 +53,7 @@ export function CodeBlock({ code, language = 'text' }: CodeBlockProps) {
           )}
         </Button>
       </div>
-      <div className="relative">
+      <div className="relative overflow-hidden">
         <SyntaxHighlighter
           language={language}
           style={oneDark}
@@ -63,12 +63,19 @@ export function CodeBlock({ code, language = 'text' }: CodeBlockProps) {
             background: 'transparent',
             fontSize: '0.875rem',
             lineHeight: '1.5',
+            maxWidth: '100%',
+            overflow: 'auto',
           }}
           codeTagProps={{
             style: {
               fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+              whiteSpace: 'pre-wrap',
+              wordBreak: 'break-word',
+              overflowWrap: 'break-word',
             }
           }}
+          wrapLines={true}
+          wrapLongLines={true}
         >
           {code}
         </SyntaxHighlighter>

@@ -73,7 +73,7 @@ export function ChatMessage({ message, className, onRegenerate }: ChatMessagePro
         </AvatarFallback>
       </Avatar>
 
-      <div className="flex-1 space-y-2 group">
+      <div className="flex-1 space-y-2 group min-w-0 overflow-hidden">
         <div className="flex items-center gap-2">
           <span className="text-sm font-medium">
             {isUser ? "You" : "Qwell AI"}
@@ -104,16 +104,16 @@ export function ChatMessage({ message, className, onRegenerate }: ChatMessagePro
         </div>
 
         <div className={cn(
-          "rounded-2xl shadow-lg border transition-all duration-300",
+          "rounded-2xl shadow-lg border transition-all duration-300 break-words overflow-hidden",
           isUser 
-            ? "bg-gradient-to-br from-nexora-primary via-nexora-primary/95 to-nexora-primary/85 text-white ml-auto max-w-[85%] backdrop-blur-sm border-nexora-primary/30 shadow-nexora-primary/20 p-5 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/10 before:to-transparent before:rounded-2xl transform hover:scale-[1.02]" 
+            ? "bg-gradient-to-br from-nexora-primary via-nexora-primary/95 to-nexora-primary/85 text-white ml-auto max-w-[85%] backdrop-blur-sm border-nexora-primary/30 shadow-nexora-primary/20 p-5 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/10 before:to-transparent before:rounded-2xl transform hover:scale-[1.02] word-wrap" 
             : "bg-gradient-to-br from-card/90 to-card/80 backdrop-blur-md max-w-[95%] border-border/60 border-l-4 border-l-nexora-primary/40 hover:border-l-nexora-primary/70 shadow-md hover:shadow-lg p-6 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/5 before:to-transparent before:rounded-2xl select-none"
         )}>
-          <div className="space-y-3">
+          <div className="space-y-3 overflow-hidden">
             <MarkdownRenderer 
               content={message.content} 
               className={cn(
-                "leading-relaxed",
+                "leading-relaxed overflow-hidden break-words",
                 isUser ? "text-sm" : "text-sm tracking-wide"
               )}
             />

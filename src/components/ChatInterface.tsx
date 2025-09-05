@@ -116,8 +116,8 @@ export function ChatInterface() {
     <div className="flex flex-col h-screen">
       <ScrollToBottomButton scrollAreaRef={scrollAreaRef} />
       {/* Messages Area */}
-      <ScrollArea ref={scrollAreaRef} className="flex-1 p-2 md:p-4 scroll-smooth">
-        <div className="max-w-4xl mx-auto space-y-4 pb-80 md:pb-96">
+      <ScrollArea ref={scrollAreaRef} className="flex-1 p-2 md:p-4 scroll-smooth overflow-hidden">
+        <div className="max-w-4xl mx-auto space-y-4 pb-80 md:pb-96 min-w-0">
           {!currentSession?.messages.length ? (
             <div className="text-center py-12 md:py-20 animate-fade-in px-4">
               <div className="w-16 h-16 md:w-20 md:h-20 mx-auto mb-4 md:mb-6 rounded-full bg-gradient-to-br from-nexora-primary to-nexora-secondary flex items-center justify-center shadow-lg">
@@ -172,14 +172,14 @@ export function ChatInterface() {
             </div>
           )}
           <form onSubmit={handleSubmit} className="flex gap-2">
-            <div className="flex-1 relative">
+            <div className="flex-1 relative min-w-0">
               <Textarea
                 ref={textareaRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Message Qwell AI... (Press Enter to send, Ctrl+K for new chat)"
-                className="min-h-[50px] md:min-h-[60px] max-h-24 md:max-h-32 resize-none bg-background/80 border-border focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-sm md:text-base"
+                className="min-h-[50px] md:min-h-[60px] max-h-24 md:max-h-32 resize-none bg-background/80 border-border focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-sm md:text-base w-full"
                 disabled={isLoading}
               />
             </div>
