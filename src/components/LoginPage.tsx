@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MessageSquare, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { BannerAd } from "@/components/BannerAd";
 
 
 interface LoginPageProps {
@@ -292,6 +293,9 @@ export function LoginPage({ onLogin, onSkip }: LoginPageProps) {
           </div>
         </div>
       </div>
+      
+      {/* Banner Ad */}
+      <BannerAd />
     </div>
   );
 }

@@ -117,7 +117,7 @@ export function ChatInterface() {
       <ScrollToBottomButton scrollAreaRef={scrollAreaRef} />
       {/* Messages Area */}
       <ScrollArea ref={scrollAreaRef} className="flex-1 p-2 md:p-4 scroll-smooth overflow-hidden">
-        <div className="max-w-4xl mx-auto space-y-4 pb-80 md:pb-96 min-w-0">
+        <div className="max-w-4xl mx-auto space-y-4 pb-72 md:pb-80 min-w-0">
           {!currentSession?.messages.length ? (
             <div className="text-center py-12 md:py-20 animate-fade-in px-4">
               <div className="w-16 h-16 md:w-20 md:h-20 mx-auto mb-4 md:mb-6 rounded-full bg-gradient-to-br from-nexora-primary to-nexora-secondary flex items-center justify-center shadow-lg">
@@ -150,7 +150,7 @@ export function ChatInterface() {
       </ScrollArea>
 
       {/* Input Area - Fixed and Always Sticky */}
-      <div className="fixed bottom-[51px] left-0 right-0 z-50 border-t border-border bg-card/95 backdrop-blur-md shadow-lg">
+      <div className="fixed bottom-[54px] left-0 right-0 z-50 border-t border-border bg-card/95 backdrop-blur-md shadow-lg">
         <div className="max-w-4xl mx-auto p-2 md:p-4">
           {/* Quick Actions Bar */}
           {currentSession?.messages.length > 0 && (

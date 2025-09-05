@@ -147,7 +147,7 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
-  /* Premium Scrollbar Design */
+  /* Premium Scrollbar Design with Anti-Glitch */
   ::-webkit-scrollbar {
     width: 8px;
   }
@@ -159,20 +159,42 @@
 
   ::-webkit-scrollbar-thumb {
     background: linear-gradient(45deg, 
-      hsl(var(--nexora-primary) / 0.3), 
-      hsl(var(--nexora-primary-light) / 0.5)
+      hsl(var(--nexora-primary) / 0.4), 
+      hsl(var(--nexora-primary-light) / 0.6)
     );
     border-radius: var(--radius);
     border: 2px solid hsl(var(--background));
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
   }
 
   ::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(45deg, 
-      hsl(var(--nexora-primary) / 0.5), 
-      hsl(var(--nexora-primary-light) / 0.7)
+      hsl(var(--nexora-primary) / 0.6), 
+      hsl(var(--nexora-primary-light) / 0.8)
     );
-    transform: scale(1.1);
+    transform: scale(1.05);
+  }
+
+  /* Prevent color glitching during scrolling */
+  * {
+    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, color 0.15s ease-in-out;
+  }
+
+  /* Improved scrolling performance */
+  .scroll-area-viewport {
+    contain: layout style paint;
+    will-change: scroll-position;
+  }
+
+  /* Enhanced backdrop blur for better visual stability */
+  @supports (backdrop-filter: blur(20px)) {
+    .backdrop-blur-md {
+      backdrop-filter: blur(12px) saturate(180%);
+    }
+    
+    .backdrop-blur-sm {
+      backdrop-filter: blur(8px) saturate(150%);
+    }
   }
 }
 
