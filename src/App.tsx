@@ -8,6 +8,7 @@ import { LoadingScreen } from "@/components/LoadingScreen";
 import { LoginPage } from "@/components/LoginPage";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { useAuth } from "@/hooks/useAuth";
+import { BannerAd } from "@/components/BannerAd";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
@@ -78,6 +79,7 @@ function AppContent() {
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <BannerAd />
     </BrowserRouter>
   );
 }
