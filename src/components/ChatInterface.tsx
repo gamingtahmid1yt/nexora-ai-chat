@@ -95,7 +95,7 @@ export function ChatInterface() {
       <ScrollToBottomButton scrollAreaRef={scrollAreaRef} />
       {/* Messages Area */}
       <ScrollArea ref={scrollAreaRef} className="flex-1 p-2 md:p-4 scroll-smooth">
-        <div className="max-w-4xl mx-auto space-y-4 pb-56 md:pb-64">
+        <div className="max-w-4xl mx-auto space-y-4 pb-80 md:pb-96">
           {!currentSession?.messages.length ? (
             <div className="text-center py-12 md:py-20 animate-fade-in px-4">
               <div className="w-16 h-16 md:w-20 md:h-20 mx-auto mb-4 md:mb-6 rounded-full bg-gradient-to-br from-nexora-primary to-nexora-secondary flex items-center justify-center shadow-lg">

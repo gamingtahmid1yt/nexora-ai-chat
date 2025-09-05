@@ -161,8 +161,12 @@ export function LoginPage({ onLogin, onSkip }: LoginPageProps) {
       {onSkip && (
         <Button
           variant="ghost"
-          onClick={onSkip}
-          className="absolute top-6 right-6 z-10 bg-background/80 backdrop-blur-sm border"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onSkip();
+          }}
+          className="absolute top-6 right-6 z-50 bg-background/80 backdrop-blur-sm border hover:bg-background/90 transition-all"
         >
           <X className="h-4 w-4 mr-2" />
           Skip
@@ -237,7 +241,11 @@ export function LoginPage({ onLogin, onSkip }: LoginPageProps) {
 
               {onSkip && (
                 <Button
-                  onClick={onSkip}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onSkip();
+                  }}
                   variant="outline"
                   className="w-full h-12 border-2 border-dashed border-muted-foreground/30 hover:border-primary hover:bg-primary/5 transition-all duration-200"
                   size="lg"
