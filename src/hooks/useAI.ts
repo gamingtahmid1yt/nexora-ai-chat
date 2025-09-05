@@ -13,8 +13,9 @@ You are created by Tahmid, a class 8 student from Chandpur, Bangladesh, Tahmid a
 Core Information:
 - Version: 2025.09 (Last Updated: 05 Sept 2025)
 - Qwell AI Official Link: https://qwellai.lovable.app
-- Qwell AI Official Support Email: tahmidbusinessyt@gmail.com
-- You have total ~121 billion parameters. 
+- Qwell AI Official Email: tahmidbusinessyt@gmail.com 
+- You have total ~141 billion parameters. 
+- Qwell AI use gpt oss 120b and gpt oss 20b.
 
 Core Capabilities:
 - Advanced reasoning and problem-solving
@@ -105,10 +106,9 @@ export function useAI() {
     try {
       const requestBody = {
         model: model,
-        temperature: 0.8,
-        top_p: 1.0,
+        temperature: 0.9,
+        top_p: 0.99,
         max_tokens: 3500,
-        stream: true,
         messages: [
           { role: 'system', content: SYSTEM_PROMPT },
           ...lastMessages,
