@@ -150,7 +150,7 @@ export function ChatInterface() {
       </ScrollArea>
 
       {/* Input Area - Fixed and Always Sticky */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-card/95 backdrop-blur-md shadow-lg">
+      <div className="fixed bottom-[51px] left-0 right-0 z-50 border-t border-border bg-card/95 backdrop-blur-md shadow-lg">
         <div className="max-w-4xl mx-auto p-2 md:p-4">
           {/* Quick Actions Bar */}
           {currentSession?.messages.length > 0 && (
@@ -199,10 +199,6 @@ export function ChatInterface() {
             </div>
           </form>
           {/* Removed disclaimer texts as requested */}
-        </div>
-        {/* Banner Ads */}
-        <div className="border-t border-border bg-background/95 backdrop-blur-sm">
-          <BannerAd adCode='<div id="adm-container-1772"></div><script data-cfasync="false" async type="text/javascript" src="//bdadsnetwork.com/display/items.php?1772&1329&0&0&18&0&0"></script>' />
         </div>
       </div>
     </div>

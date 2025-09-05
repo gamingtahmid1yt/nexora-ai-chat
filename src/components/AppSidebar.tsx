@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { MessageCircle, Settings, Plus, Trash2, History, Zap, Brain, Sparkles, Search } from "lucide-react";
+import { MessageCircle, Settings, Plus, Trash2, History, Search } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -44,8 +44,19 @@ export function AppSidebar() {
   return (
     <Sidebar className={collapsed ? "w-14" : "w-72"} collapsible="icon">
       <SidebarContent className="bg-sidebar">
-        {/* New Chat Button */}
+        {/* Settings Button */}
         <div className="p-3">
+          <Button
+            variant="ghost"
+            onClick={() => setShowSettings(true)}
+            className="w-full justify-start gap-2 mb-3"
+            size={collapsed ? "sm" : "default"}
+          >
+            <Settings className="h-4 w-4" />
+            {!collapsed && <span>Settings</span>}
+          </Button>
+          
+          {/* New Chat Button */}
           <Button 
             onClick={startNewChat}
             className="w-full justify-start gap-2 bg-nexora-primary hover:bg-nexora-primary/90"
@@ -123,53 +134,6 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* AI Features */}
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-xs text-muted-foreground px-3">
-            {!collapsed && "AI Features"}
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu className="px-2">
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <div className="flex items-center gap-2 cursor-pointer hover:bg-muted/50 rounded-md p-2">
-                    <Brain className="h-4 w-4 text-nexora-primary" />
-                    {!collapsed && <span className="text-sm">Advanced Reasoning</span>}
-                  </div>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <div className="flex items-center gap-2 cursor-pointer hover:bg-muted/50 rounded-md p-2">
-                    <Sparkles className="h-4 w-4 text-nexora-secondary" />
-                    {!collapsed && <span className="text-sm">Creative Writing</span>}
-                  </div>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <div className="flex items-center gap-2 cursor-pointer hover:bg-muted/50 rounded-md p-2">
-                    <Zap className="h-4 w-4 text-yellow-500" />
-                    {!collapsed && <span className="text-sm">Quick Analysis</span>}
-                  </div>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        {/* Settings */}
-        <div className="mt-auto p-3">
-          <Button
-            variant="ghost"
-            onClick={() => setShowSettings(true)}
-            className="w-full justify-start gap-2"
-            size={collapsed ? "sm" : "default"}
-          >
-            <Settings className="h-4 w-4" />
-            {!collapsed && <span>Settings</span>}
-          </Button>
-        </div>
       </SidebarContent>
 
       <SettingsModal open={showSettings} onOpenChange={setShowSettings} />
